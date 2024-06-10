@@ -14,12 +14,13 @@ import { ref, onMounted } from 'vue';
 import { getCategories } from '@shopware-pwa/api-client';
 
 export default {
+  name: 'CategoryList',
   setup(props, { emit }) {
     const categories = ref([]);
 
     const fetchCategories = async () => {
       try {
-        const response = await getCategories(); // Assuming you have a method to fetch categories
+        const response = await getCategories();
         categories.value = response?.elements || [];
       } catch (error) {
         console.error("Error fetching category list:", error);
@@ -27,7 +28,7 @@ export default {
     };
 
     const selectCategory = (category) => {
-      emit('category-selected', category); // Emit event when category is selected
+      emit('category-selected', category);
     };
 
     onMounted(fetchCategories);

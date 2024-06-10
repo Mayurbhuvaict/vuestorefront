@@ -1,7 +1,8 @@
 <template>
   <div class="product-list">
     <h1>Product List</h1>
-    <div class="products">
+    <CategoryList @category-selected="handleCategorySelected" />
+    <div class="products" v-if="!isLoading">
       <div class="product-card" v-for="product in products" :key="product.id">
         <img :src="product.cover?.media?.url" :alt="product.name" class="product-image" />
         <div class="product-details">
@@ -11,31 +12,40 @@
         </div>
       </div>
     </div>
+    <div v-if="isLoading" class="loading">Loading...</div>
   </div>
   <CartPopup />
 </template>
 
 <script>
 import CartPopup from '@/components/CartPopup';
-import { ref, onMounted } from 'vue';
-import { getProducts } from '@shopware-pwa/api-client';
+import CategoryList from '@/components/CategoryList';
+import { ref, onMounted, watch } from 'vue';
+import { getCategoryProducts, getProducts } from '@shopware-pwa/api-client';
 import CartStore from '@/store/CartStore';
 
 export default {
   name: 'ProductList',
   components: {
-    CartPopup
+    CartPopup,
+    CategoryList
   },
   setup() {
     const products = ref([]);
     const isLoading = ref(false);
+    const selectedCategory = ref(null);
 
-    const fetchProducts = async () => {
+    const fetchProducts = async (categoryId = null) => {
+      isLoading.value = true;
       try {
-        const response = await getProducts();
+        const response = categoryId
+          ? await getCategoryProducts(categoryId, {})
+          : await getProducts();
         products.value = response?.elements || [];
       } catch (error) {
         console.error("Error fetching product list:", error);
+      } finally {
+        isLoading.value = false;
       }
     };
 
@@ -66,12 +76,21 @@ export default {
       }
     };
 
-    onMounted(fetchProducts);
+    const handleCategorySelected = (category) => {
+      selectedCategory.value = category.id;
+    };
 
-    return { products, getPrice, addToCart, handleAddToCart, isLoading };
+    watch(selectedCategory, (newCategoryId) => {
+      fetchProducts(newCategoryId);
+    });
+
+    onMounted(() => fetchProducts());
+
+    return { products, getPrice, addToCart, handleAddToCart, isLoading, handleCategorySelected };
   },
 };
 </script>
+
 <style scoped>
 .product-list {
   padding: 20px;
