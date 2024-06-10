@@ -6,7 +6,7 @@
     <Profile v-if="isLoggedIn" />
   </div>
   <router-view></router-view>
-
+<ChangePassword />
 </template>
 
 <script>
@@ -14,6 +14,7 @@ import AppHeader from './components/AppHeader.vue';
 import CategoryList from './components/CategoryList.vue';
 import ProductList from './components/ProductList.vue';
 import Profile from './components/Profile.vue';
+import ChangePassword from './components/ChangePassword.vue';
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
     CategoryList,
     ProductList,
     Profile,
+    ChangePassword
   },
   data() {
     return {

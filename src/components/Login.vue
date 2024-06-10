@@ -6,18 +6,25 @@
       <input type="password" v-model="password" placeholder="Password" />
       <button @click="handleLogin">Login</button>
     </div>
+    <a href="#" @click.prevent="showForgotPassword">Forgot Password</a>
+    <ForgotPassword v-if="showForgotPasswordComponent" />
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
 import { login } from '@shopware-pwa/api-client';
+import ForgotPassword from '@/components/ForgotPassword';
 
 export default {
   name: 'LoginComponent',
+  components: {
+    ForgotPassword
+  },
   setup(_, { emit }) {
     const email = ref('');
     const password = ref('');
+    const showForgotPasswordComponent = ref(false);
 
     const handleLogin = async () => {
       try {
@@ -32,8 +39,11 @@ export default {
         console.error('Error logging in:', error);
       }
     };
+    const showForgotPassword = () => {
+      showForgotPasswordComponent.value = true;
+    };
 
-    return { email, password, handleLogin };
+    return { email, password, handleLogin, showForgotPasswordComponent, showForgotPassword };
   },
 };
 </script>

@@ -1,13 +1,9 @@
-import { setup } from '@shopware-pwa/api-client';
+import { setup,createInstance } from '@shopware-pwa/api-client';
 
-const shopwareConfig = {
+const defaultInstance = {
   endpoint: 'https://shopware-6-demo.shop-studio.io',
   accessToken: 'SWSCV3UXRXPAR3BOQ0FNZUJYVA',
-  contextToken: 'SWSCV3UXRXPAR3BOQ0FNZUJYVA',
-  defaultHeaders: {
-    'sw-access-key': 'SWSCZHNXNNNYRMFXUZFSVGNRYG',
-  },
 };
 
-setup(shopwareConfig);
-
+setup(defaultInstance);
+createInstance(defaultInstance)

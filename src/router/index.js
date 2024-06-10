@@ -1,7 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Register from '@/components/Register.vue';
+import Profile from '@/components/Profile.vue';
 
 const routes = [
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+  },
   {
     path: '/register',
     name: 'Register',

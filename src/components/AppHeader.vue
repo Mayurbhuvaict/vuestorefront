@@ -5,6 +5,9 @@
         <li><a href="#" @click.prevent="toggleCartPopup">Add to Cart</a></li>
         <li><button @click="toggleLogin">Login</button></li>
         <li><a href="#" @click.prevent="showProfile">Profile</a></li>
+        <li v-if="accessToken"><a href="#" @click.prevent="showEditProfile">Edit Profile</a></li>
+        <li><Logout v-if="accessToken" /></li>
+      
       </ul>
     </nav>
     <CartPopup v-if="isCartOpen" :userData="userData" />
@@ -14,6 +17,7 @@
         {{ successMessage }}
       </div>
     </div>
+    <updateProfile :userData="userData" />
     <Profile v-if="showProfileComponent" :accessToken="accessToken" />
   </header>
 </template>
@@ -23,19 +27,23 @@ import { ref } from 'vue';
 import CartPopup from '@/components/CartPopup';
 import Login from '@/components/Login';
 import Profile from '@/components/Profile'; 
+import  updateProfile  from '@/components/updateProfile';
+import  Logout  from '@/components/Logout';
 
 export default {
   components: {
     CartPopup,
     Login,
-    Profile
+    Profile,
+    updateProfile,
+    Logout
   },
   setup() {
     const isCartOpen = ref(false);
     const showLogin = ref(false);
     const showProfileComponent = ref(false);
+    const accessToken = ref(localStorage.getItem('accessToken') || '');
     const successMessage = ref('');
-    const accessToken = ref('');
     const userData = ref(null);
 
     const toggleLogin = () => {

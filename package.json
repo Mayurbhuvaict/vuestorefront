@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@shopware-pwa/api-client": "^0.7.0",
+    "@shopware-pwa/cli": "^1.6.1",
     "@shopware-pwa/composables": "^1.6.1",
+    "@shopware-pwa/composables-next": "^0.14.1",
     "@shopware-pwa/shopware-6-client": "^1.6.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
