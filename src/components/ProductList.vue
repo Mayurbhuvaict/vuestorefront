@@ -3,13 +3,18 @@
     <h1>Product List</h1>
     <CategoryList @category-selected="handleCategorySelected" />
     <div class="products" v-if="!isLoading">
-      <div class="product-card" v-for="product in products" :key="product.id">
+      <div
+        class="product-card"
+        v-for="product in products"
+        :key="product.id"
+        @click="openProductDetail(product.id)"
+      >
         <img :src="product.cover?.media?.url" :alt="product.name" class="product-image" />
         <div class="product-details">
           <h2 class="product-name">{{ product.name }}</h2>
           <p class="product-price">{{ getPrice(product) }}</p>
-          <button class="add-to-cart" @click="handleAddToCart(product)">Add to Cart</button>
-          <button class="add-to-wishlist" @click="handleAddToWishlist(product)">Add to Wishlist</button>
+          <button class="add-to-cart" @click.stop="handleAddToCart(product)">Add to Cart</button>
+          <button class="add-to-wishlist" @click.stop="handleAddToWishlist(product)">Add to Wishlist</button>
         </div>
       </div>
     </div>
@@ -18,12 +23,14 @@
   <CartPopup />
 </template>
 
+
 <script>
 import CartPopup from '@/components/CartPopup';
 import CategoryList from '@/components/CategoryList';
 import { ref, onMounted, watch } from 'vue';
 import { getCategoryProducts, getProducts, addWishlistProduct } from '@shopware-pwa/api-client';
 import CartStore from '@/store/CartStore';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'ProductList',
@@ -32,6 +39,7 @@ export default {
     CategoryList
   },
   setup() {
+    const router = useRouter();
     const products = ref([]);
     const isLoading = ref(false);
     const selectedCategory = ref(null);
@@ -78,9 +86,7 @@ export default {
     };
 
     const addToWishlist = async (product) => {
-      
       try {
-        console.log(product.id);
         await addWishlistProduct(product.id);
         alert('Product added to wishlist!');
       } catch (error) {
@@ -104,16 +110,30 @@ export default {
       selectedCategory.value = category.id;
     };
 
+    const openProductDetail = (productId) => {
+      router.push({ name: 'ProductDetail', params: { id: productId } });
+    };
+
     watch(selectedCategory, (newCategoryId) => {
       fetchProducts(newCategoryId);
     });
 
     onMounted(() => fetchProducts());
 
-    return { products, getPrice, addToCart, handleAddToCart, handleAddToWishlist, isLoading, handleCategorySelected };
+    return {
+      products,
+      getPrice,
+      addToCart,
+      handleAddToCart,
+      handleAddToWishlist,
+      isLoading,
+      handleCategorySelected,
+      openProductDetail
+    };
   },
 };
 </script>
+
 
 <style scoped>
 .product-list {

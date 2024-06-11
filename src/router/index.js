@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Register from '@/components/Register.vue';
 import Profile from '@/components/Profile.vue';
+import ProductDetail from '@/components/ProductDetail.vue';
 
 const routes = [
   {
@@ -13,7 +14,12 @@ const routes = [
     name: 'Register',
     component: Register,
   },
-  // Add other routes here
+  {
+    path: '/product/:id',
+    name: 'ProductDetail',
+    component: ProductDetail,
+    props: true
+  },
 ];
 
 const router = createRouter({
