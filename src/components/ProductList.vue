@@ -9,6 +9,7 @@
           <h2 class="product-name">{{ product.name }}</h2>
           <p class="product-price">{{ getPrice(product) }}</p>
           <button class="add-to-cart" @click="handleAddToCart(product)">Add to Cart</button>
+          <button class="add-to-wishlist" @click="handleAddToWishlist(product)">Add to Wishlist</button>
         </div>
       </div>
     </div>
@@ -21,7 +22,7 @@
 import CartPopup from '@/components/CartPopup';
 import CategoryList from '@/components/CategoryList';
 import { ref, onMounted, watch } from 'vue';
-import { getCategoryProducts, getProducts } from '@shopware-pwa/api-client';
+import { getCategoryProducts, getProducts, addWishlistProduct } from '@shopware-pwa/api-client';
 import CartStore from '@/store/CartStore';
 
 export default {
@@ -76,6 +77,29 @@ export default {
       }
     };
 
+    const addToWishlist = async (product) => {
+      
+      try {
+        console.log(product.id);
+        await addWishlistProduct(product.id);
+        alert('Product added to wishlist!');
+      } catch (error) {
+        console.error('Error adding product to wishlist:', error);
+        alert('Failed to add product to wishlist.');
+      }
+    };
+
+    const handleAddToWishlist = async (product) => {
+      isLoading.value = true;
+      try {
+        await addToWishlist(product);
+      } catch (error) {
+        alert('Failed to add product to wishlist.');
+      } finally {
+        isLoading.value = false;
+      }
+    };
+
     const handleCategorySelected = (category) => {
       selectedCategory.value = category.id;
     };
@@ -86,7 +110,7 @@ export default {
 
     onMounted(() => fetchProducts());
 
-    return { products, getPrice, addToCart, handleAddToCart, isLoading, handleCategorySelected };
+    return { products, getPrice, addToCart, handleAddToCart, handleAddToWishlist, isLoading, handleCategorySelected };
   },
 };
 </script>
@@ -99,14 +123,14 @@ export default {
 .products {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* Reduced the gap between products */
+  gap: 10px;
 }
 
 .product-card {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
-  width: calc(20% - 10px); /* Adjusted width to fit 5 products in a row */
+  width: calc(20% - 10px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -130,16 +154,31 @@ export default {
   margin: 10px 0;
 }
 
-.add-to-cart {
+.add-to-cart, .add-to-wishlist {
   background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
-.add-to-cart:hover {
+.add-to-cart:hover, .add-to-wishlist:hover {
   background-color: #0056b3;
+}
+
+.add-to-wishlist {
+  background-color: #ff5733;
+}
+
+.add-to-wishlist:hover {
+  background-color: #c70039;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2em;
+  padding: 20px;
 }
 </style>

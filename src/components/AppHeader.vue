@@ -7,7 +7,7 @@
         <li><a href="#" @click.prevent="showProfile">Profile</a></li>
         <li v-if="accessToken"><a href="#" @click.prevent="showEditProfile">Edit Profile</a></li>
         <li><Logout v-if="accessToken" /></li>
-      
+        <li v-if="accessToken"><a href="#" @click.prevent="toggleWishlist">Wishlist</a></li>
       </ul>
     </nav>
     <CartPopup v-if="isCartOpen" :userData="userData" />
@@ -19,6 +19,7 @@
     </div>
     <updateProfile :userData="userData" />
     <Profile v-if="showProfileComponent" :accessToken="accessToken" />
+    <AddToWishlist v-if="showWishlist" />
   </header>
 </template>
 
@@ -27,8 +28,9 @@ import { ref } from 'vue';
 import CartPopup from '@/components/CartPopup';
 import Login from '@/components/Login';
 import Profile from '@/components/Profile'; 
-import  updateProfile  from '@/components/updateProfile';
-import  Logout  from '@/components/Logout';
+import updateProfile from '@/components/updateProfile';
+import Logout from '@/components/Logout';
+import AddToWishlist from '@/components/AddToWishlist'; // Import the AddToWishlist component
 
 export default {
   components: {
@@ -36,12 +38,14 @@ export default {
     Login,
     Profile,
     updateProfile,
-    Logout
+    Logout,
+    AddToWishlist // Register the AddToWishlist component
   },
   setup() {
     const isCartOpen = ref(false);
     const showLogin = ref(false);
     const showProfileComponent = ref(false);
+    const showWishlist = ref(false); // Add state for showing the wishlist
     const accessToken = ref(localStorage.getItem('accessToken') || '');
     const successMessage = ref('');
     const userData = ref(null);
@@ -64,12 +68,32 @@ export default {
       if (accessToken.value) {
         showProfileComponent.value = true;
       } else {
-        console.log(accessToken);
         alert('Please log in to view your profile.');
       }
     };
 
-    return { isCartOpen, toggleCartPopup, showLogin, toggleLogin, successMessage, handleLoginSuccess, accessToken, showProfileComponent, showProfile,userData };
+    const toggleWishlist = () => {
+      if (accessToken.value) {
+        showWishlist.value = !showWishlist.value;
+      } else {
+        alert('Please log in to view your wishlist.');
+      }
+    };
+
+    return {
+      isCartOpen,
+      toggleCartPopup,
+      showLogin,
+      toggleLogin,
+      successMessage,
+      handleLoginSuccess,
+      accessToken,
+      showProfileComponent,
+      showProfile,
+      userData,
+      showWishlist,
+      toggleWishlist // Return the new toggle function
+    };
   },
 };
 </script>
