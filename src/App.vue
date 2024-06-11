@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <AppHeader />
-    <CategoryList />
+<!--    <CategoryList />-->
+<!--    <CategoryTree />-->
     <ProductList />
     <Profile v-if="isLoggedIn" />
   </div>
@@ -11,14 +12,16 @@
 
 <script>
 import AppHeader from './components/AppHeader.vue';
-import CategoryList from './components/CategoryList.vue';
+// import CategoryList from './components/CategoryList.vue';
+// import CategoryTree from './views/CategoryTree.vue';
 import ProductList from './components/ProductList.vue';
 import Profile from './components/Profile.vue';
 
 export default {
   components: {
     AppHeader,
-    CategoryList,
+    // CategoryList,
+    // CategoryTree,
     ProductList,
     Profile,
   },

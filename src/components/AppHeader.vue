@@ -1,19 +1,37 @@
 <template>
   <header>
-    <nav>
-      <ul>
-        <li><a href="#" @click.prevent="toggleCartPopup">Add to Cart</a></li>
-        <li><button @click="toggleLogin">Login</button></li>
-        <li><a href="#" @click.prevent="showProfile">Profile</a></li>
-      </ul>
-    </nav>
-    <CartPopup v-if="isCartOpen" :userData="userData" />
-    <div v-if="showLogin">
-      <Login @login-success="handleLoginSuccess" />
-      <div v-if="successMessage" class="success-message">
-        {{ successMessage }}
+    <link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+      <div class="container px-0">
+        <nav class="navbar navbar-light bg-dark navbar-expand-xl">
+          <a href="index.html" class="navbar-brand"><img class="text-primary display-6" src="#" alt="Shopware + PWA"></a>
+
+          <div class="collapse navbar-collapse dark" id="navbarCollapse">
+            <CategoryTree />
+            <div class="d-flex m-3 me-0">
+              <a href="#" class="position-relative me-4 my-auto">
+                <a href="#" @click.prevent="toggleCartPopup"><i class="fa fa-shopping-bag fa-2x"></i></a>
+<!--                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>-->
+              </a>
+              <a href="#" @click="toggleLogin" class="my-auto">
+                <i class="fas fa-user fa-2x"></i>
+              </a>
+              <li><a href="#" @click.prevent="showProfile">Profile</a></li>
+              <div v-if="showLogin">
+                <Login @login-success="handleLoginSuccess" />
+                <div v-if="successMessage" class="success-message">
+                  {{ successMessage }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
       </div>
     </div>
+    <CartPopup v-if="isCartOpen" :userData="userData" />
     <Profile v-if="showProfileComponent" :accessToken="accessToken" />
   </header>
 </template>
@@ -22,10 +40,14 @@
 import { ref } from 'vue';
 import CartPopup from '@/components/CartPopup';
 import Login from '@/components/Login';
-import Profile from '@/components/Profile'; 
+import Profile from '@/components/Profile';
+// import CategoryItem from "@/components/CategoryItem.vue";
+import CategoryTree from "@/views/CategoryTree.vue";
 
 export default {
   components: {
+    // CategoryItem,
+    CategoryTree,
     CartPopup,
     Login,
     Profile
@@ -66,26 +88,4 @@ export default {
 };
 </script>
 
-<style scoped>
-header {
-  background-color: #333;
-  color: white;
-  padding: 1em;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1em;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-}
-
-.success-message {
-  color: green;
-  margin-top: 20px;
-}
-</style>
+<style scoped src="../assets/css/demo.css" />

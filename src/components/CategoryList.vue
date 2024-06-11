@@ -4,6 +4,7 @@
     <ul>
       <li v-for="category in categories" :key="category.id" @click="selectCategory(category)">
         {{ category.name }}
+        {{ category }}
       </li>
     </ul>
   </div>
@@ -11,16 +12,37 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import { getCategories } from '@shopware-pwa/api-client';
+import {getCategories} from '@shopware-pwa/api-client';
 
 export default {
   setup(props, { emit }) {
     const categories = ref([]);
-
+    // const criteria = {
+    //   page: 1,
+    //   limit: 10,
+    //   filter: [
+    //     {
+    //       type: "equals",
+    //       field: "parentId",
+    //       value: null,
+    //     },
+    //   ]
+    // };
     const fetchCategories = async () => {
       try {
         const response = await getCategories(); // Assuming you have a method to fetch categories
         categories.value = response?.elements || [];
+        console.log(response.elements);
+        let html = '';
+        categories.value.forEach(category => {
+          if (category.level === 2) {
+            html += '<ul id='+category.id+'></ul>';
+            console.log(html);
+          }
+        });
+        // for (const responseKey in response.elements) {
+        //   console.log(responseKey);
+        // }
       } catch (error) {
         console.error("Error fetching category list:", error);
       }
@@ -37,28 +59,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.category-list {
-  margin-top: 20px;
-}
-
-.category-list h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.category-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.category-list li {
-  margin-bottom: 5px;
-  cursor: pointer;
-  color: #333;
-}
-
-.category-list li:hover {
-  color: #007bff;
-}
-</style>
+<style scoped src="../assets/css/demo.css" />
