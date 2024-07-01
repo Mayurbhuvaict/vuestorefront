@@ -1,21 +1,22 @@
 <template>
   <div id="app">
-    <AppHeader />
-    <CategoryList />
-    <ProductList />
-    <Profile v-if="isLoggedIn" />
+    <AppHeader  />
+    <CategoryList v-if="route.path === '/'" />
+    <ProductList v-if="route.path === '/'" />
+    <Profile v-if="route.path === '/'" />
+    <router-view></router-view>
+    <ChangePassword v-if="route.path === '/'" />
   </div>
-  <router-view></router-view>
-<ChangePassword />
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import AppHeader from './components/AppHeader.vue';
 import CategoryList from './components/CategoryList.vue';
 import ProductList from './components/ProductList.vue';
 import Profile from './components/Profile.vue';
 import ChangePassword from './components/ChangePassword.vue';
-
 export default {
   components: {
     AppHeader,
@@ -34,5 +35,13 @@ export default {
       this.isLoggedIn = true;
     },
   },
+  setup() {
+    const route = useRoute();
+    const isRegisterRoute = computed(() => route.path === '/register');
+    return {
+      isRegisterRoute,
+      route
+    };
+  }
 };
 </script>

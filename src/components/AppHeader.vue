@@ -3,8 +3,10 @@
     <nav>
       <ul>
         <li><a href="#" @click.prevent="toggleCartPopup">Add to Cart</a></li>
-        <li><button @click="toggleLogin">Login</button></li>
-        <li><a href="#" @click.prevent="showProfile">Profile</a></li>
+        <li><a href="#" @click.prevent="navigateTo('/login')">Login</a></li>
+        <li><a href="#" @click.prevent="navigateTo('/register')">Sign Up</a></li>
+        <!-- <li><button @click="toggleLogin">Login</button></li> -->
+        <li><a href="#" @click.prevent="navigateTo('/profile')">Profile</a></li>
         <li v-if="accessToken"><a href="#" @click.prevent="showEditProfile">Edit Profile</a></li>
         <li><Logout v-if="accessToken" /></li>
         <li v-if="accessToken"><a href="#" @click.prevent="toggleWishlist">Wishlist</a></li>
@@ -17,7 +19,7 @@
         {{ successMessage }}
       </div>
     </div>
-    <updateProfile :userData="userData" />
+    <!-- <updateProfile :userData="userData" /> -->
     <Profile v-if="showProfileComponent" :accessToken="accessToken" />
     <AddToWishlist v-if="showWishlist" />
   </header>
@@ -25,10 +27,11 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'; // Import useRouter
 import CartPopup from '@/components/CartPopup';
 import Login from '@/components/Login';
 import Profile from '@/components/Profile'; 
-import updateProfile from '@/components/updateProfile';
+// import updateProfile from '@/components/updateProfile';
 import Logout from '@/components/Logout';
 import AddToWishlist from '@/components/AddToWishlist'; // Import the AddToWishlist component
 
@@ -37,11 +40,12 @@ export default {
     CartPopup,
     Login,
     Profile,
-    updateProfile,
+    // updateProfile,
     Logout,
     AddToWishlist // Register the AddToWishlist component
   },
   setup() {
+    const router = useRouter(); // Initialize router
     const isCartOpen = ref(false);
     const showLogin = ref(false);
     const showProfileComponent = ref(false);
@@ -80,6 +84,10 @@ export default {
       }
     };
 
+    const navigateTo = (path) => {
+      router.push(path); // Use router.push to navigate without refreshing
+    };
+
     return {
       isCartOpen,
       toggleCartPopup,
@@ -92,7 +100,8 @@ export default {
       showProfile,
       userData,
       showWishlist,
-      toggleWishlist // Return the new toggle function
+      toggleWishlist,
+      navigateTo // Return navigateTo function
     };
   },
 };

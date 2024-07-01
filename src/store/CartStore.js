@@ -8,10 +8,10 @@ const CartStore = reactive({
     total: 0,
   },
 
-async addToCart(product) {
+async addToCart(product,quantity) {
   try {
-    console.log(product);
-    const cart = await addProductToCart(product.id, 1); 
+    console.log(product,quantity);
+    const cart = await addProductToCart(product.id, quantity); 
     console.log('cart is trying to add',cart);
     console.log('Product added to cart:', cart);
     console.log("Adding to cart:", product);

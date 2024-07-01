@@ -1,134 +1,135 @@
 <template>
-  <div class="register">
-    <h1>Register</h1>
-    <form @submit.prevent="registerUser">
+  <div class="register container mt-5">
+    <h1 class="text-center mb-4">Register</h1>
+    <form @submit.prevent="registerUser" class="needs-validation" novalidate>
       <!-- User Information Fields -->
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" v-model="form.firstName" id="firstName" required />
-      </div>
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" v-model="form.lastName" id="lastName" required />
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" v-model="form.email" id="email" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" v-model="form.password" id="password" :required="!form.guest" />
-      </div>
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" v-model="form.title" id="title" />
-      </div>
-      <div class="form-group">
-        <label for="birthdayYear">Birthday Year</label>
-        <input type="number" v-model="form.birthdayYear" id="birthdayYear" />
-      </div>
-      <div class="form-group">
-        <label for="birthdayMonth">Birthday Month</label>
-        <input type="number" v-model="form.birthdayMonth" id="birthdayMonth" />
-      </div>
-      <div class="form-group">
-        <label for="birthdayDay">Birthday Day</label>
-        <input type="number" v-model="form.birthdayDay" id="birthdayDay" />
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="form-group mb-3" v-for="(field, index) in leftUserFields" :key="index">
+            <label :for="field.id">{{ field.label }}</label>
+            <input
+              :type="field.type"
+              v-model="form[field.model]"
+              :id="field.id"
+              class="form-control"
+              :required="field.required"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3" v-for="(field, index) in rightUserFields" :key="index">
+            <label :for="field.id">{{ field.label }}</label>
+            <input
+              :type="field.type"
+              v-model="form[field.model]"
+              :id="field.id"
+              class="form-control"
+              :required="field.required"
+            />
+          </div>
+        </div>
       </div>
 
-      <!-- Billing Address Fields -->
-      <h2>Billing Address</h2>
-      <div class="form-group">
-        <label for="billingFirstName">First Name</label>
-        <input type="text" v-model="form.billingAddress.firstName" id="billingFirstName" required />
-      </div>
-      <div class="form-group">
-        <label for="billingLastName">Last Name</label>
-        <input type="text" v-model="form.billingAddress.lastName" id="billingLastName" required />
-      </div>
-      <div class="form-group">
-        <label for="billingStreet">Street</label>
-        <input type="text" v-model="form.billingAddress.street" id="billingStreet" required />
-      </div>
-      <div class="form-group">
-        <label for="billingCity">City</label>
-        <input type="text" v-model="form.billingAddress.city" id="billingCity" required />
-      </div>
-      <div class="form-group">
-        <label for="billingZipcode">Zipcode</label>
-        <input type="text" v-model="form.billingAddress.zipcode" id="billingZipcode" required />
-      </div>
-      <div class="form-group">
-        <label for="billingCountry">Country</label>
-        <select v-model="form.billingAddress.countryId" @change="loadStates('billing')" id="billingCountry" required>
-          <option value="" disabled>Select a country</option>
-          <option v-for="country in countries" :key="country.id" :value="country.id">
-            {{ country.translated.name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group" v-if="billingStates.length > 0">
-        <label for="billingState">State</label>
-        <select v-model="form.billingAddress.stateId" id="billingState" required>
-          <option value="" disabled>Select a state</option>
-          <option v-for="state in billingStates" :key="state.id" :value="state.id">
-            {{ state.translated.name }}
-          </option>
-        </select>
+      <!-- Billing and Shipping Address Fields -->
+      <div class="row">
+        <!-- Billing Address -->
+        <div class="col-md-6">
+          <h2 class="mb-3">Billing Address</h2>
+          <div class="form-group mb-3" v-for="(field, index) in billingFields" :key="index">
+            <label :for="field.id">{{ field.label }}</label>
+            <input
+              :type="field.type"
+              v-model="form.billingAddress[field.model]"
+              :id="field.id"
+              class="form-control"
+              :required="field.required"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="billingCountry">Country</label>
+            <select
+              v-model="form.billingAddress.countryId"
+              @change="loadStates('billing')"
+              id="billingCountry"
+              class="form-select"
+              required
+            >
+              <option value="" disabled>Select a country</option>
+              <option v-for="country in countries" :key="country.id" :value="country.id">
+                {{ country.translated.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group mb-3" v-if="billingStates.length > 0">
+            <label for="billingState">State</label>
+            <select v-model="form.billingAddress.stateId" id="billingState" class="form-select" required>
+              <option value="" disabled>Select a state</option>
+              <option v-for="state in billingStates" :key="state.id" :value="state.id">
+                {{ state.translated.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="col-md-6">
+          <h2 class="mb-3">Shipping Address</h2>
+          <div class="form-group mb-3" v-for="(field, index) in shippingFields" :key="index">
+            <label :for="field.id">{{ field.label }}</label>
+            <input
+              :type="field.type"
+              v-model="form.shippingAddress[field.model]"
+              :id="field.id"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="shippingCountry">Country</label>
+            <select
+              v-model="form.shippingAddress.countryId"
+              @change="loadStates('shipping')"
+              id="shippingCountry"
+              class="form-select"
+            >
+              <option value="" disabled>Select a country</option>
+              <option v-for="country in countries" :key="country.id" :value="country.id">
+                {{ country.translated.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group mb-3" v-if="shippingStates.length > 0">
+            <label for="shippingState">State</label>
+            <select v-model="form.shippingAddress.stateId" id="shippingState" class="form-select">
+              <option value="" disabled>Select a state</option>
+              <option v-for="state in shippingStates" :key="state.id" :value="state.id">
+                {{ state.translated.name }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <!-- Shipping Address Fields -->
-      <h2>Shipping Address</h2>
-      <div class="form-group">
-        <label for="shippingFirstName">First Name</label>
-        <input type="text" v-model="form.shippingAddress.firstName" id="shippingFirstName" />
-      </div>
-      <div class="form-group">
-        <label for="shippingLastName">Last Name</label>
-        <input type="text" v-model="form.shippingAddress.lastName" id="shippingLastName" />
-      </div>
-      <div class="form-group">
-        <label for="shippingStreet">Street</label>
-        <input type="text" v-model="form.shippingAddress.street" id="shippingStreet" />
-      </div>
-      <div class="form-group">
-        <label for="shippingCity">City</label>
-        <input type="text" v-model="form.shippingAddress.city" id="shippingCity" />
-      </div>
-      <div class="form-group">
-        <label for="shippingZipcode">Zipcode</label>
-        <input type="text" v-model="form.shippingAddress.zipcode" id="shippingZipcode" />
-      </div>
-      <div class="form-group">
-        <label for="shippingCountry">Country</label>
-        <select v-model="form.shippingAddress.countryId" @change="loadStates('shipping')" id="shippingCountry">
-          <option value="" disabled>Select a country</option>
-          <option v-for="country in countries" :key="country.id" :value="country.id">
-            {{ country.translated.name }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group" v-if="shippingStates.length > 0">
-        <label for="shippingState">State</label>
-        <select v-model="form.shippingAddress.stateId" id="shippingState">
-          <option value="" disabled>Select a state</option>
-          <option v-for="state in shippingStates" :key="state.id" :value="state.id">
-            {{ state.translated.name }}
-          </option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
     </form>
-    <p v-if="message" class="message">{{ message }}</p>
+
+    <SuccessModal
+      :visible="showSuccessModal"
+      message="Registration successful!"
+      @close="closeSuccessModal"
+    />
+
+    <p v-if="message" class="message alert alert-success mt-3">{{ message }}</p>
   </div>
 </template>
 
-  
 <script>
 import * as shopwareClient from "@shopware-pwa/api-client";
+import SuccessModal from './SuccessModal.vue';
 
 export default {
+  components: {
+    SuccessModal,
+  },
   data() {
     return {
       form: {
@@ -164,7 +165,35 @@ export default {
       message: "",
       countries: [],
       billingStates: [],
-      shippingStates: []
+      shippingStates: [],
+      leftUserFields: [
+        { id: 'firstName', label: 'First Name', model: 'firstName', type: 'text', required: true },
+        { id: 'email', label: 'Email', model: 'email', type: 'email', required: true },
+        { id: 'title', label: 'Title', model: 'title', type: 'text' },
+        { id: 'birthdayMonth', label: 'Birthday Month', model: 'birthdayMonth', type: 'number' }
+
+      ],
+      rightUserFields: [
+        { id: 'lastName', label: 'Last Name', model: 'lastName', type: 'text', required: true },
+        { id: 'password', label: 'Password', model: 'password', type: 'password', required: true },
+        { id: 'birthdayYear', label: 'Birthday Year', model: 'birthdayYear', type: 'number' },
+        { id: 'birthdayDay', label: 'Birthday Day', model: 'birthdayDay', type: 'number' }
+      ],
+      billingFields: [
+        { id: 'billingFirstName', label: 'First Name', model: 'firstName', type: 'text', required: true },
+        { id: 'billingLastName', label: 'Last Name', model: 'lastName', type: 'text', required: true },
+        { id: 'billingStreet', label: 'Street', model: 'street', type: 'text', required: true },
+        { id: 'billingCity', label: 'City', model: 'city', type: 'text', required: true },
+        { id: 'billingZipcode', label: 'Zipcode', model: 'zipcode', type: 'text', required: true }
+      ],
+      shippingFields: [
+        { id: 'shippingFirstName', label: 'First Name', model: 'firstName', type: 'text' },
+        { id: 'shippingLastName', label: 'Last Name', model: 'lastName', type: 'text' },
+        { id: 'shippingStreet', label: 'Street', model: 'street', type: 'text' },
+        { id: 'shippingCity', label: 'City', model: 'city', type: 'text' },
+        { id: 'shippingZipcode', label: 'Zipcode', model: 'zipcode', type: 'text' }
+      ],
+      showSuccessModal: false,
     };
   },
   methods: {
@@ -196,8 +225,12 @@ export default {
     async registerUser() {
       try {
         await shopwareClient.register(this.form);
-        this.message = "Registration successful! Logging you in...";
+        this.message = "Registration successful!";
+        this.showSuccessModal = true;
         await this.loginUser();
+        setTimeout(() => {
+          this.$router.push({ path: '/' });
+        }, 1000);
       } catch (error) {
         this.message = `Registration failed: ${error.message}`;
         console.error(error);
@@ -211,7 +244,6 @@ export default {
         });
         console.log('Login successful. ContextToken:', result.contextToken);
         localStorage.setItem('accessToken', result.contextToken);
-        this.$router.push({ path: '/' }); 
       } catch (error) {
         this.message = `Login failed: ${error.message}`;
         console.error(error);
@@ -220,55 +252,33 @@ export default {
   },
   mounted() {
     this.fetchCountries();
-  }
+  },
 };
 </script>
 
+<style scoped>
+@import "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css";
 
-  
-  <style scoped>
-  .register {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  input, select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .message {
-    margin-top: 20px;
-    color: green;
-    font-weight: bold;
-  }
-  </style>
-  
+.register {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.needs-validation input:invalid {
+  border-color: #dc3545;
+}
+
+.message {
+  text-align: center;
+}
+</style>

@@ -1,8 +1,8 @@
 import { setup,createInstance } from '@shopware-pwa/api-client';
 
 const defaultInstance = {
-  endpoint: 'https://shopware-6-demo.shop-studio.io',
-  accessToken: 'SWSCV3UXRXPAR3BOQ0FNZUJYVA',
+  endpoint: 'http://vuestorefrontshopware.ictstagingsite.com',
+  accessToken: 'SWSCETFSTKHZR2NTNGHUETZIEG',
 };
 
 setup(defaultInstance);

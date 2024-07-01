@@ -11,10 +11,11 @@
       >
         <img :src="product.cover?.media?.url" :alt="product.name" class="product-image" />
         <div class="product-details">
-          <h2 class="product-name">{{ product.name }}</h2>
+          <h2 class="product-name">{{ product.translated.name }}</h2>
           <p class="product-price">{{ getPrice(product) }}</p>
-          <button class="add-to-cart" @click.stop="handleAddToCart(product)">Add to Cart</button>
+          <button v-if="!product.optionIds" class="add-to-cart" @click.stop="handleAddToCart(product)">Add to Cart</button>
           <button class="add-to-wishlist" @click.stop="handleAddToWishlist(product)">Add to Wishlist</button>
+          <button v-if="product.optionIds" class="detail-button" @click.stop="openProductDetail(product.id)">Detail</button>
         </div>
       </div>
     </div>
@@ -50,7 +51,19 @@ export default {
         const response = categoryId
           ? await getCategoryProducts(categoryId, {})
           : await getProducts();
-        products.value = response?.elements || [];
+          
+        const uniqueProducts = [];
+        const productNames = new Set();
+
+        (response?.elements || []).forEach(product => {
+          const productName = product.translated.name;
+          if (!productNames.has(productName)) {
+            productNames.add(productName);
+            uniqueProducts.push(product);
+          }
+        });
+
+        products.value = uniqueProducts;
       } catch (error) {
         console.error("Error fetching product list:", error);
       } finally {
@@ -174,7 +187,7 @@ export default {
   margin: 10px 0;
 }
 
-.add-to-cart, .add-to-wishlist {
+.add-to-cart, .add-to-wishlist, .detail-button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -184,7 +197,7 @@ export default {
   margin-top: 10px;
 }
 
-.add-to-cart:hover, .add-to-wishlist:hover {
+.add-to-cart:hover, .add-to-wishlist:hover, .detail-button:hover {
   background-color: #0056b3;
 }
 

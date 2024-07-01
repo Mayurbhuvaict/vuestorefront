@@ -13,6 +13,7 @@
     "@shopware-pwa/composables": "^1.6.1",
     "@shopware-pwa/composables-next": "^0.14.1",
     "@shopware-pwa/shopware-6-client": "^1.6.1",
+    "@shopware/api-client": "^0.5.0",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
     "vue-router": "^4.3.2"
