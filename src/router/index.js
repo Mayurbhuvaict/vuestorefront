@@ -4,8 +4,16 @@ import Profile from '@/components/Profile.vue';
 import ProductDetail from '@/components/ProductDetail.vue';
 import Login from '@/components/Login.vue';
 import ForgotPassword from '@/components/ForgotPassword.vue';
+import Cart from '@/components/CartPopup.vue';
+import App from '@/App.vue';
+import wishlist from '@/components/AddToWishlist.vue';
 
 const routes = [
+  {
+    path: '/',
+    name: 'App',
+    component: App
+  },
   {
     path: '/login',
     name: 'Login',
@@ -19,7 +27,10 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: Profile,
+    components: {
+      default: Profile,
+      additional: Register, // Load Register component as additional view
+    }
   },
   {
     path: '/register',
@@ -29,8 +40,21 @@ const routes = [
   {
     path: '/product/:id',
     name: 'ProductDetail',
-    component: ProductDetail,
-    props: true
+    components: {
+      default: ProductDetail,
+      additional: Cart // Load Cart component as additional view
+    },
+    props: { default: true, additional: false }
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
+  },
+  {
+    path: '/wishlist',
+    name: 'wishlist',
+    component: wishlist
   },
 ];
 

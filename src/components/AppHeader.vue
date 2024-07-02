@@ -2,65 +2,30 @@
   <header>
     <nav>
       <ul>
-        <li><a href="#" @click.prevent="toggleCartPopup">Add to Cart</a></li>
-        <li><a href="#" @click.prevent="navigateTo('/login')">Login</a></li>
-        <li><a href="#" @click.prevent="navigateTo('/register')">Sign Up</a></li>
-        <!-- <li><button @click="toggleLogin">Login</button></li> -->
-        <li><a href="#" @click.prevent="navigateTo('/profile')">Profile</a></li>
-        <li v-if="accessToken"><a href="#" @click.prevent="showEditProfile">Edit Profile</a></li>
-        <li><Logout v-if="accessToken" /></li>
-        <li v-if="accessToken"><a href="#" @click.prevent="toggleWishlist">Wishlist</a></li>
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/cart">Add to Cart</router-link></li>
+        <li><router-link to="/login">Login</router-link></li>
+        <li><router-link to="/register">Sign Up</router-link></li>
+        <li><router-link to="/profile">Profile</router-link></li>
+        <li v-if="accessToken"><router-link to="/edit-profile">Edit Profile</router-link></li>
+        <li v-if="accessToken"><router-link to="/wishlist">Wishlist</router-link></li>
       </ul>
     </nav>
-    <CartPopup v-if="isCartOpen" :userData="userData" />
-    <div v-if="showLogin">
-      <Login @login-success="handleLoginSuccess" />
-      <div v-if="successMessage" class="success-message">
-        {{ successMessage }}
-      </div>
-    </div>
-    <!-- <updateProfile :userData="userData" /> -->
-    <Profile v-if="showProfileComponent" :accessToken="accessToken" />
-    <AddToWishlist v-if="showWishlist" />
+    <!-- <router-view></router-view> -->
   </header>
 </template>
 
 <script>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; // Import useRouter
-import CartPopup from '@/components/CartPopup';
-import Login from '@/components/Login';
-import Profile from '@/components/Profile'; 
-// import updateProfile from '@/components/updateProfile';
-import Logout from '@/components/Logout';
-import AddToWishlist from '@/components/AddToWishlist'; // Import the AddToWishlist component
 
 export default {
-  components: {
-    CartPopup,
-    Login,
-    Profile,
-    // updateProfile,
-    Logout,
-    AddToWishlist // Register the AddToWishlist component
-  },
   setup() {
-    const router = useRouter(); // Initialize router
-    const isCartOpen = ref(false);
     const showLogin = ref(false);
     const showProfileComponent = ref(false);
     const showWishlist = ref(false); // Add state for showing the wishlist
     const accessToken = ref(localStorage.getItem('accessToken') || '');
     const successMessage = ref('');
     const userData = ref(null);
-
-    const toggleLogin = () => {
-      showLogin.value = !showLogin.value;
-    };
-
-    const toggleCartPopup = () => {
-      isCartOpen.value = !isCartOpen.value;
-    };
 
     const handleLoginSuccess = (token) => {
       accessToken.value = token;
@@ -84,15 +49,8 @@ export default {
       }
     };
 
-    const navigateTo = (path) => {
-      router.push(path); // Use router.push to navigate without refreshing
-    };
-
     return {
-      isCartOpen,
-      toggleCartPopup,
       showLogin,
-      toggleLogin,
       successMessage,
       handleLoginSuccess,
       accessToken,
@@ -100,8 +58,7 @@ export default {
       showProfile,
       userData,
       showWishlist,
-      toggleWishlist,
-      navigateTo // Return navigateTo function
+      toggleWishlist
     };
   },
 };

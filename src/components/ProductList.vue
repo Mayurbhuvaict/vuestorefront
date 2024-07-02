@@ -1,7 +1,10 @@
 <template>
   <div class="product-list">
-    <h1>Product List</h1>
+    <!-- <h1>Product List</h1> -->
     <CategoryList @category-selected="handleCategorySelected" />
+    <div class="banner-container">
+      <img :src="bannerUrl" alt="Banner" class="banner-image" v-if="bannerUrl" />
+    </div>
     <div class="products" v-if="!isLoading">
       <div
         class="product-card"
@@ -21,12 +24,13 @@
     </div>
     <div v-if="isLoading" class="loading">Loading...</div>
   </div>
-  <CartPopup />
+  <!-- <CartPopup /> -->
 </template>
 
 
+
 <script>
-import CartPopup from '@/components/CartPopup';
+// import CartPopup from '@/components/CartPopup';
 import CategoryList from '@/components/CategoryList';
 import { ref, onMounted, watch } from 'vue';
 import { getCategoryProducts, getProducts, addWishlistProduct } from '@shopware-pwa/api-client';
@@ -36,7 +40,7 @@ import { useRouter } from 'vue-router';
 export default {
   name: 'ProductList',
   components: {
-    CartPopup,
+    // CartPopup,
     CategoryList
   },
   setup() {
@@ -44,6 +48,7 @@ export default {
     const products = ref([]);
     const isLoading = ref(false);
     const selectedCategory = ref(null);
+    const bannerUrl = ref('');
 
     const fetchProducts = async (categoryId = null) => {
       isLoading.value = true;
@@ -118,7 +123,10 @@ export default {
         isLoading.value = false;
       }
     };
-
+    const loadBanner = () => {
+      // Set the URL for your banner image
+      bannerUrl.value = `${process.env.BASE_URL}banner/homepagebanner.webp`; // Update the banner image name as needed
+    };
     const handleCategorySelected = (category) => {
       selectedCategory.value = category.id;
     };
@@ -131,7 +139,9 @@ export default {
       fetchProducts(newCategoryId);
     });
 
-    onMounted(() => fetchProducts());
+    onMounted(() => {loadBanner();
+    fetchProducts();
+  });
 
     return {
       products,
@@ -141,7 +151,8 @@ export default {
       handleAddToWishlist,
       isLoading,
       handleCategorySelected,
-      openProductDetail
+      openProductDetail,
+      bannerUrl
     };
   },
 };
@@ -150,7 +161,7 @@ export default {
 
 <style scoped>
 .product-list {
-  padding: 20px;
+  padding: 0px;
 }
 
 .products {
@@ -213,5 +224,15 @@ export default {
   text-align: center;
   font-size: 1.2em;
   padding: 20px;
+}
+.banner-container {
+  margin: 20px 0; /* Adjust the margin as needed */
+  text-align: center;
+}
+
+.banner-image {
+  max-width: 100%;
+  height: auto;
+  width: 100%;
 }
 </style>
