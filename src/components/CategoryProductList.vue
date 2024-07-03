@@ -1,75 +1,79 @@
 <template>
-  <div class="product-list">
-    <div style="height: 50px;"></div>
-    <center><h1>Products</h1></center>
-    <!-- <CategoryList @category-selected="handleCategorySelected" /> -->
-    <div class="products" v-if="!isLoading">
-      <div
-        class="product-card"
-        v-for="product in products"
-        :key="product.id"
-        @click="openProductDetail(product.id)"
-      >
-        <img :src="product.cover?.media?.url" :alt="product.name" class="product-image" />
-        <div class="product-details">
-          <h2 class="product-name">{{ product.translated.name }}</h2>
-          <p class="product-price">{{ getPrice(product) }}</p>
-          <p class="product-description">{{ truncateDescription(product.translated.description) }}</p>
-          <button v-if="!product.optionIds" class="add-to-cart" @click.stop="handleAddToCart(product)">
-          Add to Cart
-          </button>
-          <button v-if="product.optionIds" class="detail-button" @click.stop="openProductDetail(product.id)">Detail</button>
-          <button class="add-to-wishlist" @click.stop="handleAddToWishlist(product)">
-            <i class="fas fa-heart"></i>
-          </button>
+    <div class="product-list">
+      <!-- Space above the product list -->
+      <div style="height: 50px;"></div>
+            <!-- Arrow button to go back to home page -->
+            <button class="back-to-home" @click="goToHomePage">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </button>
+      <div class="products" v-if="!isLoading">
+        <div
+          class="product-card"
+          v-for="product in products"
+          :key="product.id"
+          @click="openProductDetail(product.id)"
+        >
+          <img :src="product.cover?.media?.url" :alt="product.name" class="product-image" />
+          <div class="product-details">
+            <h2 class="product-name">{{ product.translated.name }}</h2>
+            <p class="product-price">{{ getPrice(product) }}</p>
+            <p class="product-description">{{ truncateDescription(product.translated.description) }}</p>
+            <button v-if="!product.optionIds" class="add-to-cart" @click.stop="handleAddToCart(product)">
+              Add to Cart
+            </button>
+            <button v-if="product.optionIds" class="detail-button" @click.stop="openProductDetail(product.id)">Detail</button>
+            <button class="add-to-wishlist" @click.stop="handleAddToWishlist(product)">
+              <i class="fas fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Space below the product list -->
+      <div style="height: 50px;"></div>
+      
+  
+      <div v-if="isLoading" class="loading">Loading...</div>
+      <div v-if="showCartModal" class="modal" @click="showCartModal = false">
+        <div class="modal-content">
+          Product added to cart!
+        </div>
+      </div>
+      <div v-if="showWishlistModal" class="modal" @click="showWishlistModal = false">
+        <div class="modal-content">
+          Product added to wishlist!
         </div>
       </div>
     </div>
-    <div v-if="isLoading" class="loading">Loading...</div>
-    <div v-if="showCartModal" class="modal" @click="showCartModal = false">
-      <div class="modal-content">
-        Product added to cart!
-      </div>
-    </div>
-    <div v-if="showWishlistModal" class="modal" @click="showWishlistModal = false">
-      <div class="modal-content">
-        Product added to wishlist!
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
-// import CategoryList from '@/components/CategoryList';
+  </template>
+  
+  
+  <script>
 import { ref, onMounted, watch } from 'vue';
-import { getCategoryProducts, getProducts, addWishlistProduct } from '@shopware-pwa/api-client';
+import { getCategoryProducts, addWishlistProduct } from '@shopware-pwa/api-client';
 import CartStore from '@/store/CartStore';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 export default {
-  name: 'ProductList',
-  // components: {
-  //   CategoryList
-  // },
+  name: 'CategoryProductList',
+
   setup() {
     const router = useRouter();
+    const route = useRoute();
     const products = ref([]);
     const isLoading = ref(false);
-    const selectedCategory = ref(null);
     const showCartModal = ref(false);
     const showWishlistModal = ref(false);
+    const selectedCategory = ref(route.params.categoryId);
 
-    const fetchProducts = async (categoryId = null) => {
+    const fetchProducts = async (categoryId) => {
       isLoading.value = true;
       try {
-        const response = categoryId
-          ? await getCategoryProducts(categoryId, {})
-          : await getProducts();
-
+        const response = await getCategoryProducts(categoryId, {});
         const uniqueProducts = [];
         const productNames = new Set();
 
-        (response?.elements || []).forEach(product => {
+        (response?.elements || []).forEach((product) => {
           const productName = product.translated.name;
           if (!productNames.has(productName)) {
             productNames.add(productName);
@@ -79,7 +83,7 @@ export default {
 
         products.value = uniqueProducts;
       } catch (error) {
-        console.error("Error fetching product list:", error);
+        console.error('Error fetching product list:', error);
       } finally {
         isLoading.value = false;
       }
@@ -91,19 +95,14 @@ export default {
         const currencyId = product.calculatedPrice.calculatedTaxes[0]?.tax?.name || '€';
         return `${price} ${currencyId}`;
       } else {
-        return "Price not available";
+        return 'Price not available';
       }
-    };
-
-    const addToCart = (product) => {
-      CartStore.addToCart(product);
-      CartStore.isCartOpen = true;
     };
 
     const handleAddToCart = async (product) => {
       isLoading.value = true;
       try {
-        await addToCart(product);
+        CartStore.addToCart(product);
         showCartModal.value = true;
         setTimeout(() => {
           showCartModal.value = false;
@@ -115,7 +114,8 @@ export default {
       }
     };
 
-    const addToWishlist = async (product) => {
+    const handleAddToWishlist = async (product) => {
+      isLoading.value = true;
       try {
         await addWishlistProduct(product.id);
         showWishlistModal.value = true;
@@ -124,15 +124,6 @@ export default {
         }, 3000);
       } catch (error) {
         console.error('Error adding product to wishlist:', error);
-      }
-    };
-
-    const handleAddToWishlist = async (product) => {
-      isLoading.value = true;
-      try {
-        await addToWishlist(product);
-      } catch (error) {
-        console.error('Failed to add product to wishlist.');
       } finally {
         isLoading.value = false;
       }
@@ -152,18 +143,21 @@ export default {
       return lines.length > 3 ? lines.slice(0, 3).join('\n') + '...' : description;
     };
 
+    const goToHomePage = () => {
+      router.push('/');
+    };
+
     watch(selectedCategory, (newCategoryId) => {
       fetchProducts(newCategoryId);
     });
 
     onMounted(() => {
-      fetchProducts();
+      fetchProducts(selectedCategory.value);
     });
 
     return {
       products,
       getPrice,
-      addToCart,
       handleAddToCart,
       handleAddToWishlist,
       isLoading,
@@ -172,6 +166,7 @@ export default {
       showCartModal,
       showWishlistModal,
       truncateDescription,
+      goToHomePage,
     };
   },
 };
@@ -179,7 +174,7 @@ export default {
 
 <style scoped>
 .product-list {
-  padding: 0px;
+  padding: 20px; /* Added padding for spacing */
 }
 
 .products {
@@ -226,7 +221,10 @@ export default {
   overflow: hidden;
 }
 
-.add-to-cart, .add-to-wishlist, .detail-button {
+.add-to-cart,
+.add-to-wishlist,
+.detail-button,
+.back-to-home {
   background-color: #007bff;
   color: white;
   border: none;
@@ -237,7 +235,10 @@ export default {
   margin-right: 10px;
 }
 
-.add-to-cart:hover, .add-to-wishlist:hover, .detail-button:hover {
+.add-to-cart:hover,
+.add-to-wishlist:hover,
+.detail-button:hover,
+.back-to-home:hover {
   background-color: #0056b3;
 }
 
@@ -247,6 +248,11 @@ export default {
 
 .add-to-wishlist:hover {
   background-color: #c70039;
+}
+
+.back-to-home {
+  margin-top: 20px;
+  margin-bottom: 20px; /* Added margin for spacing */
 }
 
 .loading {

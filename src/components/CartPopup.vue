@@ -1,7 +1,10 @@
 <template>
   <div class="cart">
     <h2>Cart</h2>
-    <div class="product-grid">
+    <div v-if="isCartEmpty" class="empty-cart">
+      <p>Cart is empty</p>
+    </div>
+    <div v-else class="product-grid">
       <div class="product-card" v-for="(item, index) in cartItems" :key="index">
         <img :src="getProductImage(item.product)" :alt="item.product.name" class="product-image" />
         <div class="product-details">
@@ -12,18 +15,26 @@
       </div>
     </div>
     <p>Total: {{ getTotalPrice() }}</p>
-    <button @click="checkout" class="checkout-button">Checkout</button>
+    <button v-if="!isCartEmpty" @click="checkout" class="checkout-button">Checkout</button>
+    <CartSuccessModal v-if="showSuccessModal" @close="closeSuccessModal" />
+    <CartErrorModal v-if="showErrorModal" @close="closeErrorModal" />
   </div>
 </template>
 
-
 <script>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router'; // Import useRouter
 import CartStore from '@/store/CartStore';
 import { createOrder } from '@shopware-pwa/api-client';
+import CartSuccessModal from '@/components/CartSuccessModal.vue';
+import CartErrorModal from '@/components/CartErrorModal.vue'; // Import CartErrorModal
 
 export default {
   name: 'Cart',
+  components: {
+    CartSuccessModal,
+    CartErrorModal,
+  },
   props: {
     userData: {
       type: Object,
@@ -32,9 +43,14 @@ export default {
   },
   setup(props) {
     const cartItems = computed(() => CartStore.getCartItems());
+    const showSuccessModal = ref(false);
+    const showErrorModal = ref(false);
+    const router = useRouter(); // Get the router instance
+
+    const isCartEmpty = computed(() => cartItems.value.length === 0);
 
     const getProductImage = (product) => {
-console.log(product.cover.media.length);
+      console.log(product.cover.media.length);
       if (product && product.cover.media) {
         return product.cover.media.url;
       } else {
@@ -82,18 +98,39 @@ console.log(product.cover.media.length);
           },
         });
         console.log('Order placed successfully:', order);
-        closeCart(); 
+        closeCart();
+        showSuccessModal.value = true; // Show success modal
       } catch (error) {
         console.error('Error during checkout:', error);
+        showErrorModal.value = true; // Show error modal
       }
     };
 
-    return { cartItems, getProductImage, getPrice, getTotalPrice, checkout };
-  }
+    const closeSuccessModal = () => {
+      showSuccessModal.value = false;
+      // Redirect to profile without refreshing the page
+      router.push('/profile');
+    };
+
+    const closeErrorModal = () => {
+      showErrorModal.value = false;
+    };
+
+    return {
+      cartItems,
+      getProductImage,
+      getPrice,
+      getTotalPrice,
+      checkout,
+      isCartEmpty,
+      showSuccessModal,
+      showErrorModal,
+      closeSuccessModal,
+      closeErrorModal,
+    };
+  },
 };
-
 </script>
-
 
 <style scoped>
 .cart {
@@ -101,6 +138,12 @@ console.log(product.cover.media.length);
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.empty-cart {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
 }
 
 .product-grid {
@@ -144,4 +187,3 @@ li {
   margin-top: 16px;
 }
 </style>
-

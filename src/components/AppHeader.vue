@@ -1,64 +1,69 @@
 <template>
   <header>
-    <nav>
-      <ul>
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/cart">Add to Cart</router-link></li>
-        <li><router-link to="/login">Login</router-link></li>
-        <li><router-link to="/register">Sign Up</router-link></li>
-        <li><router-link to="/profile">Profile</router-link></li>
-        <li v-if="accessToken"><router-link to="/edit-profile">Edit Profile</router-link></li>
-        <li v-if="accessToken"><router-link to="/wishlist">Wishlist</router-link></li>
-      </ul>
-    </nav>
-    <!-- <router-view></router-view> -->
+    <div class="header-content">
+      <div class="logo">
+        <router-link to="/">
+          <img src="/banner/logo_small.webp" alt="Ecommerce Logo">
+        </router-link>
+      </div>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" placeholder="Search..." class="search-input">
+          <button class="search-button"><font-awesome-icon icon="search" /></button>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li @click="toggleUserMenu">
+            <div class="user-link">
+              <font-awesome-icon icon="user" />
+            </div>
+            <ul v-show="showUserMenu" class="dropdown-menu">
+              <!-- <li><router-link to="/edit-profile">Edit Profile</router-link></li> -->
+              <li><router-link to="/login">Login</router-link></li>
+              <li><router-link to="/register">Sign Up</router-link></li>
+              <li><router-link to="/profile">Profile</router-link></li>
+              <li @click="logout">Logout</li>
+            </ul>
+          </li>
+          <li><router-link to="/cart"><font-awesome-icon icon="shopping-cart" /></router-link></li>
+          <li>
+            <router-link to="/wishlist">
+              <font-awesome-icon icon="heart" />
+            </router-link>
+          </li>
+        </ul>
+      </nav>
+      
+    </div>
   </header>
 </template>
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
-    const showLogin = ref(false);
-    const showProfileComponent = ref(false);
-    const showWishlist = ref(false); // Add state for showing the wishlist
     const accessToken = ref(localStorage.getItem('accessToken') || '');
-    const successMessage = ref('');
-    const userData = ref(null);
+    const showUserMenu = ref(false);
+    const router = useRouter();
 
-    const handleLoginSuccess = (token) => {
-      accessToken.value = token;
-      successMessage.value = 'Login successful!';
-      showLogin.value = false; // Hide login form on success
+    const logout = () => {
+      localStorage.removeItem('accessToken');
+      accessToken.value = '';
+      router.push('/login');
     };
 
-    const showProfile = () => {
-      if (accessToken.value) {
-        showProfileComponent.value = true;
-      } else {
-        alert('Please log in to view your profile.');
-      }
-    };
-
-    const toggleWishlist = () => {
-      if (accessToken.value) {
-        showWishlist.value = !showWishlist.value;
-      } else {
-        alert('Please log in to view your wishlist.');
-      }
+    const toggleUserMenu = () => {
+      showUserMenu.value = !showUserMenu.value;
     };
 
     return {
-      showLogin,
-      successMessage,
-      handleLoginSuccess,
       accessToken,
-      showProfileComponent,
-      showProfile,
-      userData,
-      showWishlist,
-      toggleWishlist
+      logout,
+      showUserMenu,
+      toggleUserMenu,
     };
   },
 };
@@ -71,19 +76,94 @@ header {
   padding: 1em;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5em;
+}
+
+.logo img {
+  height: 50px; /* Adjust height as needed */
+}
+
 nav ul {
   list-style: none;
   display: flex;
   gap: 1em;
 }
 
+nav ul li {
+  position: relative;
+}
+
 nav ul li a {
   color: white;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
-.success-message {
-  color: green;
-  margin-top: 20px;
+nav ul li .user-link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+nav ul li .user-link i {
+  margin-right: 5px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #333;
+  list-style: none;
+  padding: 0.5em 0;
+  min-width: 120px; /* Adjust width as needed */
+  display: none;
+}
+
+.dropdown-menu li {
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+nav ul li:hover > .dropdown-menu {
+  display: block;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding: 0.5em;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.search-button {
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #777;
 }
 </style>

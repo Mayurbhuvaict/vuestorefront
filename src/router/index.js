@@ -7,6 +7,7 @@ import ForgotPassword from '@/components/ForgotPassword.vue';
 import Cart from '@/components/CartPopup.vue';
 import App from '@/App.vue';
 import wishlist from '@/components/AddToWishlist.vue';
+import CategoryProductList from '@/components/CategoryProductList.vue';
 
 const routes = [
   {
@@ -55,6 +56,12 @@ const routes = [
     path: '/wishlist',
     name: 'wishlist',
     component: wishlist
+  },
+  {
+    path: '/category/:categoryId',
+    name: 'CategoryProductList',
+    component: CategoryProductList,
+    props: true,
   },
 ];
 
