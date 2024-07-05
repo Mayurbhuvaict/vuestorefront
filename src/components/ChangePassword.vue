@@ -1,24 +1,43 @@
 <template>
-    <div>
-      <h2>Change Password</h2>
-      <form @submit.prevent="updatePassword">
-        <div>
-          <label for="currentPassword">Current Password</label>
-          <input type="password" id="currentPassword" v-model="currentPassword" required />
-        </div>
-        <div>
-          <label for="newPassword">New Password</label>
-          <input type="password" id="newPassword" v-model="newPassword" required />
-        </div>
-        <div>
-          <label for="confirmPassword">Confirm New Password</label>
-          <input type="password" id="confirmPassword" v-model="confirmPassword" required />
-        </div>
-        <button type="submit">Change Password</button>
-      </form>
-      <p v-if="message">{{ message }}</p>
-    </div>
-  </template>
+  <div>
+    <h2>Change Password</h2>
+    <form @submit.prevent="updatePassword">
+      <div>
+        <label for="currentPassword">Current Password</label>
+        <input
+          id="currentPassword"
+          v-model="currentPassword"
+          type="password"
+          required
+        >
+      </div>
+      <div>
+        <label for="newPassword">New Password</label>
+        <input
+          id="newPassword"
+          v-model="newPassword"
+          type="password"
+          required
+        >
+      </div>
+      <div>
+        <label for="confirmPassword">Confirm New Password</label>
+        <input
+          id="confirmPassword"
+          v-model="confirmPassword"
+          type="password"
+          required
+        >
+      </div>
+      <button type="submit">
+        Change Password
+      </button>
+    </form>
+    <p v-if="message">
+      {{ message }}
+    </p>
+  </div>
+</template>
   
   <script>
   import { ref } from "vue";

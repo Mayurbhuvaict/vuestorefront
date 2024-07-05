@@ -1,20 +1,22 @@
 <template>
   <div id="app">
-    <AppHeader  />
+    <Loading :loading="isLoading" />
+    <AppHeader />
     <Banner v-if="route.path === '/'" />
-    <Circularimageslider v-if="route.path === '/'" />
-    <OfferForYou v-if="route.path === '/'" />
-    <SmallBanner v-if="route.path === '/'" />
-    <!-- <CategoryList v-if="route.path === '/'" /> -->
-    <ProductList v-if="route.path === '/'" />
-    <ContentImage v-if="route.path === '/'" />
+    <div class="main-contain">
+      <Circularimageslider v-if="route.path === '/'" />
+      <OfferForYou v-if="route.path === '/'" />
+      <SmallBanner v-if="route.path === '/'" />
+      <!-- <CategoryList v-if="route.path === '/'" /> -->
+      <ProductList v-if="route.path === '/'" />
+      <ContentImage v-if="route.path === '/'" />
 
-    <!-- <Profile v-if="route.path === '/'" /> -->
-    <router-view v-if="route.path !== '/'"></router-view>
-    <!-- <ChangePassword v-if="route.path === '/'" /> -->
-    <Footer />
+      <!-- <Profile v-if="route.path === '/'" /> -->
+      <router-view v-if="route.path !== '/'" />
+      <!-- <ChangePassword v-if="route.path === '/'" /> -->
+      <Footer />
+    </div>
   </div>
-
 </template>
 
 <script>
@@ -31,6 +33,7 @@ import Circularimageslider from './components/Circularimageslider.vue'
 import OfferForYou from './components/OfferForYou.vue'
 import SmallBanner from './components/SmallBanner.vue'
 import ContentImage from './components/ContentImage.vue'
+import Loading from './components/Loading.vue';
 export default {
   components: {
     AppHeader,
@@ -42,18 +45,9 @@ export default {
     SmallBanner,
     ContentImage,
     Footer,
+    Loading,
     // Profile,
     // ChangePassword
-  },
-  data() {
-    return {
-      isLoggedIn: false,
-    };
-  },
-  methods: {
-    handleLoginSuccess() {
-      this.isLoggedIn = true;
-    },
   },
   setup() {
     const route = useRoute();
@@ -62,6 +56,25 @@ export default {
       isRegisterRoute,
       route
     };
+  },
+  data() {
+    return {
+      isLoggedIn: false,
+      isLoading: false,
+    };
+  },
+  methods: {
+    handleLoginSuccess() {
+      this.isLoggedIn = true;
+    },
+    fetchData() {
+      this.isLoading = true;
+      // Simulate an API call
+      setTimeout(() => {
+        this.isLoading = false;
+        // Handle your data here
+      }, 2000);
+    },
   }
 };
 </script>

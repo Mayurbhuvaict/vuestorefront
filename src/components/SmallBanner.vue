@@ -1,13 +1,29 @@
 <template>
+  <div class="container">
     <div class="small-banners">
-      <div class="banner">
-        <img src="/banner/smallbanner.jpg" alt="Banner 1" class="banner-image" />
+      <div
+        class="banner"
+        data-aos="flip-up"
+      >
+        <img
+          src="/banner/smallbanner.jpg"
+          alt="Banner 1"
+          class="banner-image"
+        >
       </div>
-      <div class="banner">
-        <img src="/banner/smallbanner.jpg" alt="Banner 2" class="banner-image" />
+      <div
+        class="banner"
+        data-aos="flip-down"
+      >
+        <img
+          src="/banner/smallbanner.jpg"
+          alt="Banner 2"
+          class="banner-image"
+        >
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   export default {

@@ -1,11 +1,13 @@
 <template>
-    <div class="modal">
-      <div class="modal-content">
-        <h3>Order Placed Successfully!</h3>
-        <button @click="$emit('close')">Close</button>
-      </div>
+  <div class="modal">
+    <div class="modal-content">
+      <h3>Order Placed Successfully!</h3>
+      <button @click="$emit('close')">
+        Close
+      </button>
     </div>
-  </template>
+  </div>
+</template>
   
   <style scoped>
   .modal {
@@ -25,6 +27,8 @@
     padding: 20px;
     border-radius: 8px;
     text-align: center;
+    max-width: 400px;
+    font-size: 30px;
   }
   
   button {

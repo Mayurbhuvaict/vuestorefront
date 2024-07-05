@@ -1,12 +1,27 @@
 <template>
+  <div class="container">
   <div class="cart">
-    <h2>Cart</h2>
-    <div v-if="isCartEmpty" class="empty-cart">
+    <h1>Cart</h1>
+    <div
+      v-if="isCartEmpty"
+      class="empty-cart"
+    >
       <p>Cart is empty</p>
     </div>
-    <div v-else class="product-grid">
-      <div class="product-card" v-for="(item, index) in cartItems" :key="index">
-        <img :src="getProductImage(item.product)" :alt="item.product.name" class="product-image" />
+    <div
+      v-else
+      class="product-grid"
+    >
+      <div
+        v-for="(item, index) in cartItems"
+        :key="index"
+        class="product-card"
+      >
+        <img
+          :src="getProductImage(item.product)"
+          :alt="item.product.name"
+          class="product-image"
+        >
         <div class="product-details">
           <h3>{{ item.product.name }}</h3>
           <p>Quantity: {{ item.quantity }}</p>
@@ -14,11 +29,24 @@
         </div>
       </div>
     </div>
-    <p>Total: {{ getTotalPrice() }}</p>
-    <button v-if="!isCartEmpty" @click="checkout" class="checkout-button">Checkout</button>
-    <CartSuccessModal v-if="showSuccessModal" @close="closeSuccessModal" />
-    <CartErrorModal v-if="showErrorModal" @close="closeErrorModal" />
+    <p class="total-price">Total: {{ getTotalPrice() }}</p>
+    <button
+      v-if="!isCartEmpty"
+      class="checkout-button"
+      @click="checkout"
+    >
+      Checkout
+    </button>
+    <CartSuccessModal
+      v-if="showSuccessModal"
+      @close="closeSuccessModal"
+    />
+    <CartErrorModal
+      v-if="showErrorModal"
+      @close="closeErrorModal"
+    />
   </div>
+</div>
 </template>
 
 <script>

@@ -1,6 +1,11 @@
 <template>
-    <button @click="handleLogout" class="logout-button">Logout</button>
-  </template>
+  <button
+    class="logout-button"
+    @click="handleLogout"
+  >
+    Logout
+  </button>
+</template>
   
   <script>
   export default {

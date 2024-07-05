@@ -1,39 +1,85 @@
 <template>
   <div class="product-list">
-    <div style="height: 50px;"></div>
-    <center><h1>Products</h1></center>
-    <!-- <CategoryList @category-selected="handleCategorySelected" /> -->
-    <div class="products" v-if="!isLoading">
+    <div class="container">
+      <div style="height: 50px;" />
+      <center><h1>Products</h1></center>
+      <!-- <CategoryList @category-selected="handleCategorySelected" /> -->
       <div
-        class="product-card"
-        v-for="product in products"
-        :key="product.id"
-        @click="openProductDetail(product.id)"
+        v-if="!isLoading"
+        class="products"
       >
-        <img :src="product.cover?.media?.url" :alt="product.name" class="product-image" />
-        <div class="product-details">
-          <h2 class="product-name">{{ product.translated.name }}</h2>
-          <p class="product-price">{{ getPrice(product) }}</p>
-          <p class="product-description">{{ truncateDescription(product.translated.description) }}</p>
-          <button v-if="!product.optionIds" class="add-to-cart" @click.stop="handleAddToCart(product)">
-          Add to Cart
-          </button>
-          <button v-if="product.optionIds" class="detail-button" @click.stop="openProductDetail(product.id)">Detail</button>
-          <button class="add-to-wishlist" @click.stop="handleAddToWishlist(product)">
-            <i class="fas fa-heart"></i>
-          </button>
+        <div
+          v-for="product in products"
+          :key="product.id"
+          class="product-card"
+          @click="openProductDetail(product.id)"
+        >
+          <img
+            :src="product.cover?.media?.url"
+            :alt="product.name"
+            class="product-image"
+          >
+          <div class="product-details">
+            <h2 class="product-name">
+              {{ product.translated.name }}
+            </h2>
+            <p class="product-price">
+              {{ getPrice(product) }}
+            </p>
+            <p class="product-description">
+              {{ truncateDescription(product.translated.description) }}
+            </p>
+            <div class="btn-group">
+              <button
+                v-if="!product.optionIds"
+                class="add-to-cart"
+                @click.stop="handleAddToCart(product)"
+              >
+                Add to Cart
+              </button>
+              <button
+                v-if="product.optionIds"
+                class="detail-button"
+                @click.stop="openProductDetail(product.id)"
+              >
+                Detail
+              </button>
+              <button
+                class="add-to-wishlist"
+                @click.stop="handleAddToWishlist(product)"
+              >
+                <i class="fas fa-heart" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-if="isLoading" class="loading">Loading...</div>
-    <div v-if="showCartModal" class="modal" @click="showCartModal = false">
-      <div class="modal-content">
-        Product added to cart!
+      <div
+        v-if="isLoading"
+        class="loading"
+      >
+        <img
+          src="../../public/banner/loader.gif"
+          alt="Loading..."
+        >
       </div>
-    </div>
-    <div v-if="showWishlistModal" class="modal" @click="showWishlistModal = false">
-      <div class="modal-content">
-        Product added to wishlist!
+      <div
+        v-if="showCartModal"
+        class="modal"
+        @click="showCartModal = false"
+      >
+        <div class="modal-content">
+          ✔ Product added to cart!
+        </div>
+      </div>
+      <div
+        v-if="showWishlistModal"
+        class="modal"
+        @click="showWishlistModal = false"
+      >
+        <div class="modal-content">
+          Product added to wishlist!
+        </div>
       </div>
     </div>
   </div>
@@ -206,35 +252,14 @@ export default {
   margin-top: 10px;
 }
 
-.product-name {
-  font-size: 18px;
-  margin: 0;
-}
-
-.product-price {
-  color: #888;
-  margin: 10px 0;
-}
-
-.product-description {
-  font-size: 14px;
-  margin: 10px 0;
-  color: #555;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
 .add-to-cart, .add-to-wishlist, .detail-button {
-  background-color: #007bff;
+  background-color: #0b2f80;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
-  margin-right: 10px;
 }
 
 .add-to-cart:hover, .add-to-wishlist:hover, .detail-button:hover {

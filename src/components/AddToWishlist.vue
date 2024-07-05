@@ -1,24 +1,51 @@
 <template>
-    <div class="wishlist">
-      <h1>My Wishlist</h1>
-      <div v-if="isLoading" class="loading">Loading...</div>
-      <div v-else>
-        <div v-if="wishlistItems.length === 0" class="empty-wishlist">
-          Your wishlist is empty.
-        </div>
-        <div v-else class="wishlist-items">
-          <div class="wishlist-item" v-for="item in wishlistItems" :key="item.id">
-            <img :src="item.cover?.media?.url" :alt="item.name" class="wishlist-item-image" />
-            <div class="wishlist-item-details">
-              <h2>{{ item.name }}</h2>
-              <p>{{ getPrice(item) }}</p>
-              <button class="remove-from-wishlist" @click="handleRemoveFromWishlist(item.id)">Remove</button>
-            </div>
+  <div class="wishlist">
+    <h1>My Wishlist</h1>
+    <div
+      v-if="isLoading"
+      class="loading"
+    >
+      <img
+        src="../../public/banner/loader.gif"
+        alt="Loading..."
+      >
+    </div>
+    <div v-else>
+      <div
+        v-if="wishlistItems.length === 0"
+        class="empty-wishlist"
+      >
+        Your wishlist is empty.
+      </div>
+      <div
+        v-else
+        class="wishlist-items"
+      >
+        <div
+          v-for="item in wishlistItems"
+          :key="item.id"
+          class="wishlist-item"
+        >
+          <img
+            :src="item.cover?.media?.url"
+            :alt="item.name"
+            class="wishlist-item-image"
+          >
+          <div class="wishlist-item-details">
+            <h2>{{ item.name }}</h2>
+            <p>{{ getPrice(item) }}</p>
+            <button
+              class="remove-from-wishlist"
+              @click="handleRemoveFromWishlist(item.id)"
+            >
+              Remove
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import { ref, onMounted } from 'vue';

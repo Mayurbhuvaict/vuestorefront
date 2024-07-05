@@ -1,89 +1,161 @@
 <template>
-    <div class="profile-edit">
-      <h1>Edit User Profile</h1>
-      <div v-if="userData">
-        <div class="form-group">
-          <label for="firstName">First Name:</label>
-          <input type="text" v-model="userData.firstName" id="firstName" />
-        </div>
-        <div class="form-group">
-          <label for="lastName">Last Name:</label>
-          <input type="text" v-model="userData.lastName" id="lastName" />
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" v-model="userData.email" id="email" />
-        </div>
-        <div class="form-group">
-          <label for="title">Title:</label>
-          <input type="text" v-model="userData.title" id="title" />
-        </div>
-        <div class="form-group">
-          <label for="birthday">Birthday:</label>
-          <input type="date" v-model="userData.birthday" id="birthday" />
-        </div>
+  <div class="profile-edit">
+    <h1>Edit User Profile</h1>
+    <div v-if="userData">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input
+          id="firstName"
+          v-model="userData.firstName"
+          type="text"
+        >
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input
+          id="lastName"
+          v-model="userData.lastName"
+          type="text"
+        >
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          v-model="userData.email"
+          type="email"
+        >
+      </div>
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input
+          id="title"
+          v-model="userData.title"
+          type="text"
+        >
+      </div>
+      <div class="form-group">
+        <label for="birthday">Birthday:</label>
+        <input
+          id="birthday"
+          v-model="userData.birthday"
+          type="date"
+        >
+      </div>
   
-        <h2>Billing Address</h2>
-        <div v-if="billingAddress">
-          <div class="form-group">
-            <label for="billingStreet">Street:</label>
-            <input type="text" v-model="billingAddress.street" id="billingStreet" />
-          </div>
-          <div class="form-group">
-            <label for="billingCity">City:</label>
-            <input type="text" v-model="billingAddress.city" id="billingCity" />
-          </div>
-          <div class="form-group">
-            <label for="billingZipcode">Zipcode:</label>
-            <input type="text" v-model="billingAddress.zipcode" id="billingZipcode" />
-          </div>
-          <div class="form-group">
-            <label for="billingCountry">Country:</label>
-            <input type="text" v-model="billingAddress.country.translated.name" id="billingCountry" disabled />
-          </div>
-          <div class="form-group" v-if="billingAddress.countryState">
-            <label for="billingState">State:</label>
-            <input type="text" v-model="billingAddress.countryState.name" id="billingState" disabled />
-          </div>
+      <h2>Billing Address</h2>
+      <div v-if="billingAddress">
+        <div class="form-group">
+          <label for="billingStreet">Street:</label>
+          <input
+            id="billingStreet"
+            v-model="billingAddress.street"
+            type="text"
+          >
         </div>
-        <div v-else>
-          <p>Loading billing address...</p>
+        <div class="form-group">
+          <label for="billingCity">City:</label>
+          <input
+            id="billingCity"
+            v-model="billingAddress.city"
+            type="text"
+          >
         </div>
-  
-        <h2>Shipping Address</h2>
-        <div v-if="shippingAddress">
-          <div class="form-group">
-            <label for="shippingStreet">Street:</label>
-            <input type="text" v-model="shippingAddress.street" id="shippingStreet" />
-          </div>
-          <div class="form-group">
-            <label for="shippingCity">City:</label>
-            <input type="text" v-model="shippingAddress.city" id="shippingCity" />
-          </div>
-          <div class="form-group">
-            <label for="shippingZipcode">Zipcode:</label>
-            <input type="text" v-model="shippingAddress.zipcode" id="shippingZipcode" />
-          </div>
-          <div class="form-group">
-            <label for="shippingCountry">Country:</label>
-            <input type="text" v-model="shippingAddress.country.translated.name" id="shippingCountry" disabled />
-          </div>
-          <div class="form-group" v-if="shippingAddress.countryState">
-            <label for="shippingState">State:</label>
-            <input type="text" v-model="shippingAddress.countryState.name" id="shippingState" disabled />
-          </div>
+        <div class="form-group">
+          <label for="billingZipcode">Zipcode:</label>
+          <input
+            id="billingZipcode"
+            v-model="billingAddress.zipcode"
+            type="text"
+          >
         </div>
-        <div v-else>
-          <p>Loading shipping address...</p>
+        <div class="form-group">
+          <label for="billingCountry">Country:</label>
+          <input
+            id="billingCountry"
+            v-model="billingAddress.country.translated.name"
+            type="text"
+            disabled
+          >
         </div>
-  
-        <button @click="saveChanges">Save Changes</button>
+        <div
+          v-if="billingAddress.countryState"
+          class="form-group"
+        >
+          <label for="billingState">State:</label>
+          <input
+            id="billingState"
+            v-model="billingAddress.countryState.name"
+            type="text"
+            disabled
+          >
+        </div>
       </div>
       <div v-else>
-        <p>Loading user data...</p>
+        <p>Loading billing address...</p>
       </div>
+  
+      <h2>Shipping Address</h2>
+      <div v-if="shippingAddress">
+        <div class="form-group">
+          <label for="shippingStreet">Street:</label>
+          <input
+            id="shippingStreet"
+            v-model="shippingAddress.street"
+            type="text"
+          >
+        </div>
+        <div class="form-group">
+          <label for="shippingCity">City:</label>
+          <input
+            id="shippingCity"
+            v-model="shippingAddress.city"
+            type="text"
+          >
+        </div>
+        <div class="form-group">
+          <label for="shippingZipcode">Zipcode:</label>
+          <input
+            id="shippingZipcode"
+            v-model="shippingAddress.zipcode"
+            type="text"
+          >
+        </div>
+        <div class="form-group">
+          <label for="shippingCountry">Country:</label>
+          <input
+            id="shippingCountry"
+            v-model="shippingAddress.country.translated.name"
+            type="text"
+            disabled
+          >
+        </div>
+        <div
+          v-if="shippingAddress.countryState"
+          class="form-group"
+        >
+          <label for="shippingState">State:</label>
+          <input
+            id="shippingState"
+            v-model="shippingAddress.countryState.name"
+            type="text"
+            disabled
+          >
+        </div>
+      </div>
+      <div v-else>
+        <p>Loading shipping address...</p>
+      </div>
+  
+      <button @click="saveChanges">
+        Save Changes
+      </button>
     </div>
-  </template>
+    <div v-else>
+      <p>Loading user data...</p>
+    </div>
+  </div>
+</template>
   
   <script>
   import { getCustomer, getCustomerAddresses, updateProfile } from "@shopware-pwa/api-client";
@@ -95,6 +167,9 @@
         billingAddress: null,
         shippingAddress: null,
       };
+    },
+    mounted() {
+      this.fetchUserData();
     },
     methods: {
       async fetchUserData() {
@@ -136,9 +211,6 @@
           console.error("Error updating profile:", error);
         }
       }
-    },
-    mounted() {
-      this.fetchUserData();
     }
   };
   </script>
@@ -165,13 +237,13 @@
   }
   button {
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #0b2f80;
     color: white;
     border: none;
     cursor: pointer;
   }
   button:hover {
-    background-color: #0056b3;
+    background-color: #0b2f80;
   }
   </style>
   

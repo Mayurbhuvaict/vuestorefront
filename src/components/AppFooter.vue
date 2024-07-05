@@ -1,11 +1,12 @@
 <template>
-    <footer class="footer">
+  <footer class="footer">
+    <div class="container">
       <div class="footer-inner">
         <div class="footer-section">
           <h4>About Us</h4>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
-        <div class="footer-section">
+        <div class="footer-section footer-links">
           <h4>Helpful Links</h4>
           <ul>
             <li> <a href="https://www.icreativetechnologies.com/about-us/">About</a></li>
@@ -27,7 +28,8 @@
       <div class="footer-bottom">
         <p>&copy; 2024 Your Ecommerce Store. All rights reserved.</p>
       </div>
-    </footer>
+    </div>
+  </footer>
 </template>
 <script>
 
@@ -55,8 +57,15 @@ export default {
   margin-bottom: 20px;
 }
 
+.footer p {
+    font-size: 18px;
+}
+.social-icons svg {
+    width: 25px;
+    height: 25px;
+}
 .footer-section h4 {
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 10px;
 }
 
@@ -67,6 +76,7 @@ ul {
 
 ul li {
   margin-bottom: 8px;
+  font-size: 18px;
 }
 
 .social-icons {

@@ -1,10 +1,19 @@
 <template>
-    <div v-if="visible" class="modal fade show" style="display: block;" tabindex="-1" role="dialog">
-        <div id="card" class="animated fadeIn">
+  <div
+    v-if="visible"
+    class="modal fade show"
+    style="display: block;"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div
+      id="card"
+      class="animated fadeIn"
+    >
       <div id="upper-side">
         <svg
-          version="1.1"
           id="checkmark"
+          version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           x="0px"
@@ -25,7 +34,9 @@
             r="32.53"
           />
         </svg>
-        <h3 id="status">Success</h3>
+        <h3 id="status">
+          Success
+        </h3>
       </div>
       <div id="lower-side">
         <p id="message">
@@ -33,8 +44,8 @@
         </p>
       </div>
     </div>
-    </div>
-  </template>
+  </div>
+</template>
   
   <script>
   export default {

@@ -1,20 +1,46 @@
 <template>
-  <div class="container">
-    <div class="card">
-      <h2>Login</h2>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="text" id="email" v-model="email" placeholder="Enter your email" />
+  <div class="register-section">
+    <div class="container">
+      <div class="card">
+        <h1>Login</h1>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            id="email"
+            v-model="email"
+            type="text"
+            placeholder="Enter your email"
+          >
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="Enter your password"
+          >
+        </div>
+        <button
+          class="login-btn"
+          @click="handleLogin"
+        >
+          Login
+        </button>
+        <p
+          v-if="errorMessage"
+          class="error-message"
+        >
+          {{ errorMessage }}
+        </p>
+        <router-link to="/forgot-password">
+          Forgot Password
+        </router-link>
+        <router-link to="/register">
+          Sign Up
+        </router-link>
+        <SuccessPopup v-if="showSuccessPopup" />
       </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" placeholder="Enter your password" />
-      </div>
-      <button @click="handleLogin">Login</button>
-      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-      <router-link to="/forgot-password">Forgot Password</router-link>
-      <router-link to="/register">Sign Up</router-link>
-      <SuccessPopup v-if="showSuccessPopup" />
     </div>
   </div>
 </template>
@@ -66,8 +92,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: #fafafa; /* Light gray background color */
 }
 
 .card {
@@ -107,11 +131,11 @@ input {
 }
 
 input:focus {
-  border-color: #51ff00; /* Input border color on focus */
+  border-color: #000; /* Input border color on focus */
 }
 
 button {
-  background-color: #00ffd5; /* Button background color */
+  background-color: #007bff; /* Button background color */
   color: #fff;
   padding: 12px; /* Increase padding */
   border: none;
@@ -132,7 +156,7 @@ button:hover {
 a {
   display: block;
   margin-top: 10px;
-  color: #00ffd5;
+  color: #007bff;
   text-decoration: none;
 }
 

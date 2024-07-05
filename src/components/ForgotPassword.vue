@@ -1,15 +1,22 @@
-  <template>
-    <div>
-      <h1>Forgot your password?</h1>
-      <hr />
-      <h3>Enter your email address to reset your password</h3>
-      <form @submit.prevent="handleForgotPassword">
-        <label for="email">Email</label><br />
-        <input type="email" v-model="email" placeholder="Enter your email address" required />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </template>
+<template>
+  <div>
+    <h1>Forgot your password?</h1>
+    <hr>
+    <h3>Enter your email address to reset your password</h3>
+    <form @submit.prevent="handleForgotPassword">
+      <label for="email">Email</label><br>
+      <input
+        v-model="email"
+        type="email"
+        placeholder="Enter your email address"
+        required
+      >
+      <button type="submit">
+        Submit
+      </button>
+    </form>
+  </div>
+</template>
   
   <script>
   import { ref } from 'vue';

@@ -2,7 +2,11 @@
   <div class="category-list">
     <h2>Categories</h2>
     <ul>
-      <li v-for="category in categories" :key="category.id" @click="selectCategory(category)">
+      <li
+        v-for="category in categories"
+        :key="category.id"
+        @click="selectCategory(category)"
+      >
         {{ category.name }}
       </li>
     </ul>
@@ -60,6 +64,6 @@ export default {
 }
 
 .category-list li:hover {
-  color: #007bff;
+  color: #0b2f80;
 }
 </style>

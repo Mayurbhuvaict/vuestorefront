@@ -1,22 +1,62 @@
 <template>
-  <div class="product-detail" v-if="product">
+  <div
+    v-if="product"
+    class="product-detail"
+  >
     <h1>{{ product.translated.name }}</h1>
     <div class="product-container">
-      <img :src="product.cover?.media?.url" :alt="product.translated.name" class="product-image" />
+      <img
+        :src="product.cover?.media?.url"
+        :alt="product.translated.name"
+        class="product-image"
+      >
       <div class="product-actions">
-        <p class="product-price">{{ getPrice(product) }}</p>
+        <p class="product-price">
+          {{ getPrice(product) }}
+        </p>
         <div class="quantity-controls">
-          <button @click="decrementQuantity">-</button>
-          <input type="number" v-model.number="quantity" min="1" />
-          <button @click="incrementQuantity">+</button>
+          <button @click="decrementQuantity">
+            -
+          </button>
+          <input
+            v-model.number="quantity"
+            type="number"
+            min="1"
+          >
+          <button @click="incrementQuantity">
+            +
+          </button>
         </div>
-        <button class="add-to-cart" @click="handleAddToCart(product, quantity)">Add to Cart</button>
-        <button class="add-to-wishlist" @click="handleAddToWishlist(product)">Add to Wishlist</button>
+        <div class="btn-group">
+          <button
+            class="add-to-cart"
+            @click="handleAddToCart(product, quantity)"
+          >
+            Add to Cart
+          </button>
+          <button
+            class="add-to-wishlist"
+            @click="handleAddToWishlist(product)"
+          >
+            Add to Wishlist
+          </button>
+        </div>
       </div>
     </div>
-    <div class="product-description" v-html="product.description"></div>
+    <div
+      class="product-description"
+      v-html="product.description"
+    />
   </div>
-  <div v-else class="loading">Loading...</div>
+  <div
+    v-else
+    class="loading"
+  >
+    <img
+      src="../../public/banner/loader.gif"
+      alt="Loading..."
+    >
+  </div>
 </template>
 
 <script>
@@ -133,11 +173,6 @@ export default {
   flex-direction: column;
 }
 
-.product-price {
-  color: #888;
-  margin: 10px 0;
-}
-
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -145,7 +180,7 @@ export default {
 }
 
 .quantity-controls button {
-  background-color: #007bff;
+  background-color: #0b2f80;
   color: white;
   border: none;
   padding: 10px;
@@ -160,7 +195,7 @@ export default {
 }
 
 .add-to-cart, .add-to-wishlist {
-  background-color: #007bff;
+  background-color: #0b2f80;
   color: white;
   border: none;
   padding: 10px 20px;

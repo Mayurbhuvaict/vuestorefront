@@ -1,18 +1,19 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 import './shopwareClient';
-import './plugins/shopware'
+import './plugins/shopware';
 import router from './router';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faFacebook, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faSearch, faShoppingCart, faHeart, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from './plugins/font-awesome';
 import '@fortawesome/fontawesome-free/css/all.css';
+import './styles/global.scss';
 
-
-
-library.add(faFacebook, faTwitter, faLinkedin,faSearch, faShoppingCart, faHeart, faUser);
 const app = createApp(App);
-app.component('font-awesome-icon', FontAwesomeIcon);
+
+// Register the FontAwesomeIcon component globally
+app.component('FontAwesomeIcon', FontAwesomeIcon);
+
+// Use the router
 app.use(router);
+
+// Mount the app
 app.mount('#app');

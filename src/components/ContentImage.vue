@@ -1,22 +1,42 @@
 <template>
-    <div class="classic-layout">
-      <!-- Left side: Large square photo -->
-      <div class="left-side">
-        <img src="/banner/leftimage.jpg" alt="Large Photo" class="large-photo" />
-      </div>
+  <div class="classic-layout-section">
+    <div class="container">
+      <div class="classic-layout">
+        <!-- Left side: Large square photo -->
+        <div
+          class="left-side"
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+        >
+          <img
+            src="/banner/Villa_cms-image.webp"
+            alt="Large Photo"
+            class="large-photo"
+          >
+        </div>
   
-      <!-- Right side: Content -->
-      <div class="right-side">
-        <h2 class="title">Title of the Content</h2>
-        <p class="description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
-        </p>
-        <button class="action-button">Read More</button>
+        <!-- Right side: Content -->
+        <div
+          class="right-side"
+          data-aos="fade-left"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+        >
+          <h1 class="title">
+            Title of the Content
+          </h1>
+          <p class="description">
+            For more than 25 years, we have been passionately the expert for high-quality and exclusive garden furniture. Since 2023, we have expanded our range to include indoor furniture and continue to focus on quality, comfort and stylish design. Our goal is to create your personal oasis of well-being outdoors and in your home with first-class lounge furniture, attractive dining sets, comfortable sun loungers, innovative outdoor kitchens, designer parasols and inspiring garden accessories.&nbsp;
+          </p>
+          <button class="action-button">
+            Read More
+          </button>
+        </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   export default {
@@ -29,7 +49,7 @@
     display: flex;
     justify-content: space-between; /* Adjust spacing between left and right sides */
     align-items: center; /* Center align items vertically */
-    padding: 20px; /* Add padding around the layout */
+    padding: 40px 0;
   }
   
   .left-side {
@@ -61,7 +81,7 @@
   }
   
   .action-button {
-    background-color: #007bff;
+    background-color: #0b2f80;
     color: white;
     border: none;
     padding: 10px 20px;

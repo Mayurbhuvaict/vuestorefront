@@ -1,11 +1,13 @@
 <template>
-    <div class="modal">
-      <div class="modal-content">
-        <h3>Something went wrong, please try again later.</h3>
-        <button @click="$emit('close')">Close</button>
-      </div>
+  <div class="modal">
+    <div class="modal-content">
+      <h3>Something went wrong, please try again later.</h3>
+      <button @click="$emit('close')">
+        Close
+      </button>
     </div>
-  </template>
+  </div>
+</template>
   
   <style scoped>
   .modal {

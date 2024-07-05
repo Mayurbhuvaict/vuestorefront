@@ -1,31 +1,57 @@
 <template>
-    <div class="checkout">
-      <h3>Checkout</h3>
-      <form @submit.prevent="processCheckout">
-        <div class="form-group">
-          <label for="fullName">Full Name:</label>
-          <input type="text" id="fullName" v-model="fullName" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="email" required />
-        </div>
-        <div class="form-group">
-          <label for="address">Address:</label>
-          <textarea id="address" v-model="address" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="paymentMethod">Payment Method:</label>
-          <select id="paymentMethod" v-model="paymentMethod" required>
-            <option value="creditCard">Credit Card</option>
-            <option value="paypal">PayPal</option>
-            <option value="bankTransfer">Bank Transfer</option>
-          </select>
-        </div>
-        <button type="submit">Place Order</button>
-      </form>
-    </div>
-  </template>
+  <div class="checkout">
+    <h3>Checkout</h3>
+    <form @submit.prevent="processCheckout">
+      <div class="form-group">
+        <label for="fullName">Full Name:</label>
+        <input
+          id="fullName"
+          v-model="fullName"
+          type="text"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <textarea
+          id="address"
+          v-model="address"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="paymentMethod">Payment Method:</label>
+        <select
+          id="paymentMethod"
+          v-model="paymentMethod"
+          required
+        >
+          <option value="creditCard">
+            Credit Card
+          </option>
+          <option value="paypal">
+            PayPal
+          </option>
+          <option value="bankTransfer">
+            Bank Transfer
+          </option>
+        </select>
+      </div>
+      <button type="submit">
+        Place Order
+      </button>
+    </form>
+  </div>
+</template>
   
   <script>
   import { ref } from 'vue';

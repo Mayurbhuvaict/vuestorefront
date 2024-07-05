@@ -1,24 +1,24 @@
 <template>
-    <div class="slider">
-      <img
-        v-for="(image, index) in images"
+  <div class="slider">
+    <img
+      v-for="(image, index) in images"
+      :key="index"
+      :src="image.src"
+      :alt="image.alt"
+      :style="{ opacity: index === currentIndex ? 1 : 0 }"
+      class="slider-image"
+    >
+    <div class="navigation-button">
+      <span
+        v-for="(dot, index) in dots"
         :key="index"
-        :src="image.src"
-        :alt="image.alt"
-        :style="{ opacity: index === currentIndex ? 1 : 0 }"
-        class="slider-image"
+        class="dot"
+        :class="{ active: index === currentIndex }"
+        @click="changeSlide(index)"
       />
-      <div class="navigation-button">
-        <span
-          v-for="(dot, index) in dots"
-          :key="index"
-          class="dot"
-          :class="{ active: index === currentIndex }"
-          @click="changeSlide(index)"
-        ></span>
-      </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import { ref, onMounted } from 'vue';
@@ -29,19 +29,19 @@
       const interval = 3000;
       const images = ref([
         {
-          src: `${process.env.BASE_URL}banner/banner1.jpg`,
+          src: `${process.env.BASE_URL}banner/testbanner.png`,
           alt: 'Image 1',
         },
         {
-          src: `${process.env.BASE_URL}banner/banner2.jpg`,
+          src: `${process.env.BASE_URL}banner/demo-test.jpg`,
           alt: 'Image 2',
         },
         {
-          src: `${process.env.BASE_URL}banner/banner3.jpg`,
+          src: `${process.env.BASE_URL}banner/demo-images.jpg`,
           alt: 'Image 3',
         },
         {
-          src: `${process.env.BASE_URL}banner/banner4.jpg`,
+          src: `${process.env.BASE_URL}banner/Villa-banner.webp`,
           alt: 'Image 4',
         },
         {
@@ -70,17 +70,17 @@
       const loadDynamicImages = () => {
         // Example dynamic change of images (replace with your logic)
         images.value[1] = {
-          src: `${process.env.BASE_URL}banner/banner2.jpg`,
+          src: `${process.env.BASE_URL}banner/Ethnicraft_Banner_HERO.jpg`,
           alt: 'Image 2',
         };
   
         images.value[2] = {
-          src: `${process.env.BASE_URL}banner/banner3.jpg`,
+          src: `${process.env.BASE_URL}banner/Villa-banner-test.webp`,
           alt: 'Image 3',
         };
 
         images.value[3] = {
-          src: `${process.env.BASE_URL}banner/banner4.jpg`,
+          src: `${process.env.BASE_URL}banner/Villa-banner.webp`,
           alt: 'Image 4',
         };
 
@@ -115,7 +115,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    padding-top: 50%;
+    padding-top: 30%;
     height: 100%;
   }
   

@@ -1,31 +1,45 @@
 <template>
-  <div class="register container mt-5">
-    <h1 class="text-center mb-4">Register</h1>
-    <form @submit.prevent="registerUser" class="needs-validation" novalidate>
+  <div class="register container mt-5 mb-5">
+    <h1 class="text-center mb-4">
+      Register
+    </h1>
+    <form
+      class="needs-validation"
+      novalidate
+      @submit.prevent="registerUser"
+    >
       <!-- User Information Fields -->
       <div class="row mb-4">
         <div class="col-md-6">
-          <div class="form-group mb-3" v-for="(field, index) in leftUserFields" :key="index">
+          <div
+            v-for="(field, index) in leftUserFields"
+            :key="index"
+            class="form-group mb-3"
+          >
             <label :for="field.id">{{ field.label }}</label>
             <input
-              :type="field.type"
-              v-model="form[field.model]"
               :id="field.id"
+              v-model="form[field.model]"
+              :type="field.type"
               class="form-control"
               :required="field.required"
-            />
+            >
           </div>
         </div>
         <div class="col-md-6">
-          <div class="form-group mb-3" v-for="(field, index) in rightUserFields" :key="index">
+          <div
+            v-for="(field, index) in rightUserFields"
+            :key="index"
+            class="form-group mb-3"
+          >
             <label :for="field.id">{{ field.label }}</label>
             <input
-              :type="field.type"
-              v-model="form[field.model]"
               :id="field.id"
+              v-model="form[field.model]"
+              :type="field.type"
               class="form-control"
               :required="field.required"
-            />
+            >
           </div>
         </div>
       </div>
@@ -34,37 +48,69 @@
       <div class="row">
         <!-- Billing Address -->
         <div class="col-md-6">
-          <h2 class="mb-3">Billing Address</h2>
-          <div class="form-group mb-3" v-for="(field, index) in billingFields" :key="index">
+          <h2 class="mb-3">
+            Billing Address
+          </h2>
+          <div
+            v-for="(field, index) in billingFields"
+            :key="index"
+            class="form-group mb-3"
+          >
             <label :for="field.id">{{ field.label }}</label>
             <input
-              :type="field.type"
-              v-model="form.billingAddress[field.model]"
               :id="field.id"
+              v-model="form.billingAddress[field.model]"
+              :type="field.type"
               class="form-control"
               :required="field.required"
-            />
+            >
           </div>
           <div class="form-group mb-3">
             <label for="billingCountry">Country</label>
             <select
-              v-model="form.billingAddress.countryId"
-              @change="loadStates('billing')"
               id="billingCountry"
+              v-model="form.billingAddress.countryId"
               class="form-select"
               required
+              @change="loadStates('billing')"
             >
-              <option value="" disabled>Select a country</option>
-              <option v-for="country in countries" :key="country.id" :value="country.id">
+              <option
+                value=""
+                disabled
+              >
+                Select a country
+              </option>
+              <option
+                v-for="country in countries"
+                :key="country.id"
+                :value="country.id"
+              >
                 {{ country.translated.name }}
               </option>
             </select>
           </div>
-          <div class="form-group mb-3" v-if="billingStates.length > 0">
+          <div
+            v-if="billingStates.length > 0"
+            class="form-group mb-3"
+          >
             <label for="billingState">State</label>
-            <select v-model="form.billingAddress.stateId" id="billingState" class="form-select" required>
-              <option value="" disabled>Select a state</option>
-              <option v-for="state in billingStates" :key="state.id" :value="state.id">
+            <select
+              id="billingState"
+              v-model="form.billingAddress.stateId"
+              class="form-select"
+              required
+            >
+              <option
+                value=""
+                disabled
+              >
+                Select a state
+              </option>
+              <option
+                v-for="state in billingStates"
+                :key="state.id"
+                :value="state.id"
+              >
                 {{ state.translated.name }}
               </option>
             </select>
@@ -73,35 +119,66 @@
 
         <!-- Shipping Address -->
         <div class="col-md-6">
-          <h2 class="mb-3">Shipping Address</h2>
-          <div class="form-group mb-3" v-for="(field, index) in shippingFields" :key="index">
+          <h2 class="mb-3">
+            Shipping Address
+          </h2>
+          <div
+            v-for="(field, index) in shippingFields"
+            :key="index"
+            class="form-group mb-3"
+          >
             <label :for="field.id">{{ field.label }}</label>
             <input
-              :type="field.type"
-              v-model="form.shippingAddress[field.model]"
               :id="field.id"
+              v-model="form.shippingAddress[field.model]"
+              :type="field.type"
               class="form-control"
-            />
+            >
           </div>
           <div class="form-group mb-3">
             <label for="shippingCountry">Country</label>
             <select
-              v-model="form.shippingAddress.countryId"
-              @change="loadStates('shipping')"
               id="shippingCountry"
+              v-model="form.shippingAddress.countryId"
               class="form-select"
+              @change="loadStates('shipping')"
             >
-              <option value="" disabled>Select a country</option>
-              <option v-for="country in countries" :key="country.id" :value="country.id">
+              <option
+                value=""
+                disabled
+              >
+                Select a country
+              </option>
+              <option
+                v-for="country in countries"
+                :key="country.id"
+                :value="country.id"
+              >
                 {{ country.translated.name }}
               </option>
             </select>
           </div>
-          <div class="form-group mb-3" v-if="shippingStates.length > 0">
+          <div
+            v-if="shippingStates.length > 0"
+            class="form-group mb-3"
+          >
             <label for="shippingState">State</label>
-            <select v-model="form.shippingAddress.stateId" id="shippingState" class="form-select">
-              <option value="" disabled>Select a state</option>
-              <option v-for="state in shippingStates" :key="state.id" :value="state.id">
+            <select
+              id="shippingState"
+              v-model="form.shippingAddress.stateId"
+              class="form-select"
+            >
+              <option
+                value=""
+                disabled
+              >
+                Select a state
+              </option>
+              <option
+                v-for="state in shippingStates"
+                :key="state.id"
+                :value="state.id"
+              >
                 {{ state.translated.name }}
               </option>
             </select>
@@ -109,7 +186,12 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+      <button
+        type="submit"
+        class="btn btn-primary w-auto mt-3 login-btn"
+      >
+        Register
+      </button>
     </form>
 
     <SuccessModal
@@ -118,7 +200,12 @@
       @close="closeSuccessModal"
     />
 
-    <p v-if="message" class="message alert alert-success mt-3">{{ message }}</p>
+    <p
+      v-if="message"
+      class="message alert alert-success mt-3"
+    >
+      {{ message }}
+    </p>
   </div>
 </template>
 
@@ -196,6 +283,9 @@ export default {
       showSuccessModal: false,
     };
   },
+  mounted() {
+    this.fetchCountries();
+  },
   methods: {
     async fetchCountries() {
       try {
@@ -249,9 +339,6 @@ export default {
         console.error(error);
       }
     }
-  },
-  mounted() {
-    this.fetchCountries();
   },
 };
 </script>

@@ -1,0 +1,475 @@
+body,h1,h2,h3{
+    font-family: "Beiruti", sans-serif;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+body{
+    // background-image: url(../../public/banner/background-image.png);e
+    background-repeat: repeat;
+    background-color: #EEE;
+}
+
+.container{
+    max-width: 1400px;
+    padding: 0 20px;
+    margin: 0 auto;
+}
+.image-gallery-section {
+    background-color: #FFF;
+    width: 100%;
+    position: relative;
+}
+.header-main{
+    border-bottom: 1px solid #dadae5;
+}
+.slider .slider-image {
+    position: fixed;
+    top: 133px;
+}
+.main-contain {
+    background-color: #FFFF;
+    position: relative;
+    padding-top: 20px;
+}
+.sticky.header-main ~ .slider .slider-image {
+    position: fixed;
+    top: 73px;
+}
+
+h1{
+    font-size: 34px;
+    position: relative;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: block;
+
+    &::before{
+        width: 28px;
+        height: 5px;
+        display: block;
+        content: "";
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        margin-left: -14px;
+        background-color: #7F5B33;
+    }
+    &::after{
+        width: 100px;
+        height: 1px;
+        display: block;
+        content: "";
+        position: relative;
+        margin-top: 10px;
+        left: 50%;
+        margin-left: -50px;
+        background-color: #7F5B33;
+    }
+}
+
+.image-gallery{
+    max-width: 100%;
+    margin: 40px auto;
+    padding: 0 20px;
+    .gallery-title {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .gallery-images{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .gallery-item{
+            width: 16%;
+            margin-bottom: 20px;
+            text-align: center;
+            cursor: pointer;
+            perspective: 1000px;
+            &:hover{
+                .gallery-image {
+                    transform: rotateY(180deg);
+                    border: 1px solid #ccc;
+                    z-index: 999;
+                }
+                .image-name {
+                    color: #000;
+                    font-weight: 600;
+                }
+            }
+            .gallery-image{
+                width: 100%;
+                min-height: 200px;
+                border-radius: 50%;
+                max-width: 200px;
+                min-width: 200px;
+                background: #fff;
+                box-shadow: 0 0 5px 1px #ccc;
+                transition: transform 0.6s;
+                transform-style: preserve-3d;
+                object-fit: cover;
+            }
+            .image-name {
+                margin-top: 10px;
+                font-size: 24px;
+                color: #333;
+                font-family: "LXGW WenKai Mono TC", monospace;
+                margin: 20px 0 0;
+            }
+        }
+    }
+}
+
+.product-card{
+    .product-name {
+        min-height: 44px;
+    }
+    .detail-button,
+    .add-to-cart {
+        min-width: 150px;
+        font-size: 20px;
+        line-height: normal;
+        &:hover{
+            background-color: #333;
+            color: #FFF;
+        }
+    }
+}
+
+.classic-layout{
+    .action-button{
+        font-size: 20px;
+        line-height: normal;
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: perspective(1px) translateZ(0);
+        transform: perspective(1px) translateZ(0);
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+        &:hover{
+            background-color: #333;
+            color: #FFF;
+    animation-name: hvr-wobble-top;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+        }
+    }
+}
+
+.footer-links{
+    a {
+        position: relative;
+        display: inline-block;
+        color: #FFF;
+        &:after {
+            transition: all 0.2s ease-in-out;
+            content: "";
+            position: absolute;
+            top: 100%;
+            background: #ffffff;
+            height: 1px;
+            left: 0;
+            width: 0;
+        }
+        &:hover {
+            text-decoration: none;
+            color: #FFF;
+            &:after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.btn-group{
+    justify-content: space-between;
+    display: flex;
+}
+nav .dropdown-menu li a {
+    background-color: #0b2f80;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 18px;
+    border: 1px solid #0b2f80;
+    transition: 0.2s all ease-in;
+    &:hover{
+        background-color: #FFF;
+        color: #0b2f80;
+    }
+}
+.dropdown-menu {
+    padding: 10px;
+    border: 1px solid #FFF;
+    min-width: 160px;
+    margin-top: 20px;
+    border: 1px solid #dadae5;
+
+    li {
+        margin-bottom: 10px;
+        a {
+            padding: 5px 10px;
+            background-color: #0b2f80;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+        }        
+    }
+    .btn-logout  {
+        border: 1px solid #000;
+        padding: 5px 10px;
+        color: #000;
+        font-weight: 500;
+        border-radius: 4px;
+        font-size: 18px;
+        text-align: center;
+        transition: 0.2s all ease-in;
+        &:hover{
+            background-color: #000;
+            color: #FFF;
+        }
+    }
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.918);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.register-section{
+    margin: 50px auto;
+}
+label {
+    color: #000;
+    width: 100%;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 20px;
+}
+.classic-layout{
+    .title {
+        text-align: start;
+        display: inline-block;
+        font-size: 30px;
+    }
+    .description {
+        font-size: 22px;
+        color: #555;
+    }
+}
+
+.cart{
+    margin: 50px auto;
+}
+.total-price {
+    margin: 20px 0;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: right;
+}
+.checkout-button{
+    font-size: 16px;
+    font-family: "LXGW WenKai Mono TC", monospace;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    padding: 5px 10px;
+    background-color: #0b2f80;
+    border-radius: 4px;
+    min-width: 250px;
+    color: #FFF;
+    border: 1px solid #0b2f80;
+    margin-left: auto;
+    margin-right: 0;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+.login-btn {
+    font-size: 16px;
+    font-family: "LXGW WenKai Mono TC", monospace;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    padding: 10px 20px;
+    min-width: 250px;
+}
+.register-section{
+    margin: 100px auto;
+    .card{
+        a {
+            font-size: 18px;
+            &:hover{
+                color: #000;
+            }
+        }
+    }
+}
+select,
+.form-control,
+input {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    font-weight: 500;
+    font-size: 18px;
+}
+.list-group .list-group-item {
+    font-size: 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 10px 20px;
+    text-align: start;
+}
+.product-list {
+    padding: 20px; /* Added padding for spacing */
+  }
+  
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: calc(20% - 10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .product-details {
+    margin-top: 10px;
+  }
+  
+  .product-name {
+    font-size: 20px;
+    margin: 0;
+  }
+  
+  .product-price {
+    margin: 10px 0;
+    color: #000;
+    font-weight: 600;
+    font-family: "Beiruti", sans-serif;
+    font-size: 20px;
+  }
+  
+  .product-description {
+    font-size: 14px;
+    margin: 10px 0;
+    color: #000;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+      font-family: "LXGW WenKai Mono TC", monospace;
+      font-size: 16px;
+      line-height: normal;
+  }
+  
+  .add-to-cart,
+  .add-to-wishlist,
+  .detail-button,
+  .back-to-home {
+    background-color: #0b2f80;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .add-to-cart:hover,
+  .add-to-wishlist:hover,
+  .detail-button:hover,
+  .back-to-home:hover {
+    background-color: #0056b3;
+  }
+  
+  .add-to-wishlist {
+    background-color: #ff5733;
+  }
+  
+  .add-to-wishlist:hover {
+    background-color: #c70039;
+  }
+  
+  .back-to-home {
+    margin-top: 20px;
+    margin-bottom: 20px; /* Added margin for spacing */
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 1.2em;
+    padding: 20px;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+@keyframes hvr-wobble-top{
+    16.65% {
+        transform: skew(-12deg);
+    }
+    33.3% {
+        transform: skew(10deg);
+    }
+    49.95% {
+        transform: skew(-6deg);
+    }
+    66.6% {
+        transform: skew(4deg);
+    }
+    83.25% {
+        transform: skew(-2deg);
+    }
+    100% {
+        transform: skew(0);
+    }
+}
